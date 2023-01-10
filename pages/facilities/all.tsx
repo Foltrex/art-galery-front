@@ -1,6 +1,6 @@
 import React from 'react';
-import FacilityTable from '../components/tables/FacilityTable';
-import styles from './facilities.module.css';
+import FacilityTable from '../../components/tables/FacilityTable';
+import styles from './all.module.css';
 
 const Facilities = () => {
     return (

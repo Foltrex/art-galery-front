@@ -6,7 +6,7 @@
 
 table {
   border-collapse: collapse;
-  /* margin: 30px auto; */
+  width: 100%;
 }
 
 tbody tr:hover {
@@ -15,8 +15,6 @@ tbody tr:hover {
 
 tr {
   border-bottom: 1px solid #ddd;
-  /* height: 45px; */
-  /* width: 170px; */
   text-align: left;
 }
 
@@ -25,6 +23,5 @@ th {
 }
 
 td, th {
-  /* width: 200px; */
   color: #888
 }
