@@ -29,6 +29,10 @@ class RepresentativeContainer {
         this.pageNumber = pageNumber;
     }
 
+    fetchRepresentatives() {
+
+    }
+
 }
 
 export default new RepresentativeContainer();

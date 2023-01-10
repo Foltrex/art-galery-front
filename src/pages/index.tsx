@@ -7,7 +7,7 @@ function Home() {
           <Link href="/">Home</Link>
         </li>
         <li>
-          <Link href={"/representative/all"}>Representative</Link>
+          <Link href={"/representatives/all"}>Representative</Link>
         </li>
       </ul>
   )

@@ -15,34 +15,52 @@ const All = observer(() => {
 
     const columns = [
         {id: 'number', label: '№', minWidth: 5, align: "center"},
-        // {id: 'firstname', label: 'Firstname', minWidth: 150, align: 'center'},
-        // {id: 'lastname', label: 'Lastname', minWidth: 150, align: 'center'},
         {id: 'email', label: 'Email', minWidth: 150, align: "center"},
         {id: 'role', label: 'Role', minWidth: 150, align: "center"},
         {id: 'facility', label: 'Facility info', minWidth: 150, align: "center"},
-        // {id: 'createdDate', label: 'Register date', minWidth: 100, align: '"center"'},
         {id: 'action', label: 'Action', minWidth: 150, align: "center"}
     ];
 
-    const handleChangePage = () => {
-        // representativeContainer.setPageNumber(newPage);
+    const handleChangePageNumber = (event: any, page: number) => {
+        representativeContainer.setPageNumber(page);
     };
 
-    const handleChangeRowsPerPage = () => {
-        // dispatch(setSizePage(+event.target.value));
-        // dispatch(setCurrentPage(0));
+    const handleChangePageSize = (event: any) => {
+        representativeContainer.setPageSize(+event.target.value)
         representativeContainer.setPageNumber(0)
     };
 
+    const displayData = (columnId: string, index: number, representative: any) => {
+        switch (columnId) {
+            case 'number':
+                return (<div>{index + 1 + representativeContainer.pageSize * representativeContainer.pageNumber}</div>)
+            case 'action':
+                return (
+                    <div>
+                        {/*<Button*/}
+                        {/*    style={{minWidth: "100px"}}*/}
+                        {/*    variant="contained"*/}
+                        {/*    color={user.isAccountNonLocked ? "error" : "success"}*/}
+                        {/*    disabled={currentUser.id === user.id}*/}
+                        {/*    onClick={*/}
+                        {/*        user.isAccountNonLocked ?*/}
+                        {/*            () => updateUserIsNonLocked(false, user.id) :*/}
+                        {/*            () => updateUserIsNonLocked(true, user.id)*/}
+                        {/*    }*/}
+                        {/*>*/}
+                        {/*    {user.isAccountNonLocked ? 'Block' : 'Unblock'}*/}
+                        {/*</Button>*/}
+                    </div>
+                )
+            default:
+                return representative[columnId]
+        }
+    }
+
     return (
         <div>
-            <h1>Count: {representativeContainer.count}</h1>
-            <Button variant={"contained"} color={"primary"}
-                    onClick={() => representativeContainer.increment()}>+</Button>
-            <Button variant={"contained"} color={"error"} onClick={() => representativeContainer.decrement()}>-</Button>
-            <Paper sx={{width: '100%', overflow: 'hidden'}} style={{marginTop: "1%"}}>
+            <Paper sx={{width: '100%', overflow: 'hidden'}} style={{paddingTop: "1%"}}>
                 <Typography variant={"h4"} align={"center"}><b>Representative list</b></Typography>
-
                 <Stack direction="row" spacing={2} style={{marginLeft: "1%"}}>
                     <Button variant={"contained"} color={"error"}>Back to menu</Button>
                     <Button variant={"contained"} color={"primary"}>Create representative</Button>
@@ -53,8 +71,8 @@ const All = observer(() => {
                     count={representativeContainer.totalElements}
                     rowsPerPage={representativeContainer.pageSize}
                     page={representativeContainer.pageNumber}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
+                    onPageChange={handleChangePageNumber}
+                    onRowsPerPageChange={handleChangePageSize}
                 />
                 <TableContainer>
                     <Table stickyHeader aria-label="sticky table">
@@ -80,7 +98,7 @@ const All = observer(() => {
                                                 {columns.map((column) => {
                                                     return (
                                                         <TableCell key={column.id}>
-
+                                                            {displayData(column.id, index, row)}
                                                         </TableCell>
                                                     );
                                                 })}
