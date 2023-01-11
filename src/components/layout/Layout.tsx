@@ -133,7 +133,7 @@ const Layout: React.FC<PropsWithChildren> = ({ children }) => {
                     <ListItemText primary='Account' />
                 </ListItemButton>
             </ListItem>
-            <ListItem key={'Representative'} component={Link} href='representatives/all'>
+            <ListItem key={'Representative'} component={Link} href='/representatives/all'>
                 <ListItemButton>
                     <ListItemIcon>
                         <HomeWorkOutlinedIcon />
@@ -141,7 +141,7 @@ const Layout: React.FC<PropsWithChildren> = ({ children }) => {
                     <ListItemText primary='Representative' />
                 </ListItemButton>
             </ListItem>
-            <ListItem key={'Facilities'} component={Link} href='facilities/all'>
+            <ListItem key={'Facilities'} component={Link} href='/facilities/all'>
                 <ListItemButton>
                     <ListItemIcon>
                         <PhotoSizeSelectActualOutlinedIcon />
