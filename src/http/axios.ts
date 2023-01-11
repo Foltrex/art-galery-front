@@ -2,11 +2,7 @@ import axios from "axios";
 
 export const ART_SERVICE = "art-service"
 
-export let axiosApi = axios.create();
-
-if (typeof window !== 'undefined') {
-    axiosApi = axios.create({baseURL: `${document.location.protocol}//${document.location.hostname}:8080/`});
-}
+export let axiosApi = axios.create({baseURL: `http://localhost:8080/`})
 
 axiosApi.interceptors.request.use(request => {
     return request;

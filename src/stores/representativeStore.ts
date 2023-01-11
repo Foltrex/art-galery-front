@@ -1,7 +1,7 @@
 import {makeAutoObservable} from "mobx";
 import {Representative} from "../entities/representative";
 
-class RepresentativeContainer {
+export class RepresentativeStore {
 
     representatives: Representative[] = [];
     representative?: Representative;
@@ -27,4 +27,4 @@ class RepresentativeContainer {
 
 }
 
-export default new RepresentativeContainer();
+export default new RepresentativeStore();

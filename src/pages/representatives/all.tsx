@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
@@ -7,52 +7,73 @@ import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import TablePagination from '@mui/material/TablePagination';
 import {Button, Paper, Stack, Typography} from "@mui/material";
-import representativeContainer from "../../stores/representativeContainer";
+import representativeStore from "../../stores/representativeStore";
 import {observer} from "mobx-react-lite";
 import {RepresentativeService} from "../../services/RepresentativeService";
+import {GetStaticProps, NextPage} from "next";
+import {Representative} from "../../entities/representative";
 
+interface TProps {
+    representatives: Representative[];
+}
 
-const All = observer(() => {
+export const getStaticProps: GetStaticProps = async () => {
+    await RepresentativeService.getAllRepresentative();
+    return {
+        props: {
+            representatives: representativeStore.representatives,
+        },
+    };
+}
+
+const All: NextPage<TProps> = observer((props) => {
+    console.log(props)
 
     const columns = [
         {id: 'number', label: '№', minWidth: 5, align: "center"},
         {id: 'email', label: 'Email', minWidth: 150, align: "center"},
-        {id: 'role', label: 'Role', minWidth: 150, align: "center"},
+        {id: 'organizationRole', label: 'Role', minWidth: 150, align: "center"},
         {id: 'facility', label: 'Facility info', minWidth: 150, align: "center"},
         {id: 'action', label: 'Action', minWidth: 150, align: "center"}
     ];
 
     const handleChangePageNumber = (event: any, page: number) => {
-        representativeContainer.setPageNumber(page);
+        representativeStore.setPageNumber(page);
     };
 
     const handleChangePageSize = (event: any) => {
-        representativeContainer.setPageSize(+event.target.value)
-        representativeContainer.setPageNumber(0)
+        representativeStore.setPageSize(+event.target.value)
+        representativeStore.setPageNumber(0)
     };
 
     const displayData = (columnId: string, index: number, representative: any) => {
         switch (columnId) {
             case 'number':
-                return (<div>{index + 1 + representativeContainer.pageSize * representativeContainer.pageNumber}</div>)
+                return (<div>{index + 1 + representativeStore.pageSize * representativeStore.pageNumber}</div>)
             case 'action':
                 return (
                     <div>
-                        {/*<Button*/}
-                        {/*    style={{minWidth: "100px"}}*/}
-                        {/*    variant="contained"*/}
-                        {/*    color={user.isAccountNonLocked ? "error" : "success"}*/}
-                        {/*    disabled={currentUser.id === user.id}*/}
-                        {/*    onClick={*/}
-                        {/*        user.isAccountNonLocked ?*/}
-                        {/*            () => updateUserIsNonLocked(false, user.id) :*/}
-                        {/*            () => updateUserIsNonLocked(true, user.id)*/}
-                        {/*    }*/}
-                        {/*>*/}
-                        {/*    {user.isAccountNonLocked ? 'Block' : 'Unblock'}*/}
-                        {/*</Button>*/}
+                        <Button
+                            style={{minWidth: "100px"}}
+                            variant="contained"
+                            color={"success"}
+                        >
+                            Edit
+                        </Button>
+                        {' '}
+                        <Button
+                            style={{minWidth: "100px"}}
+                            variant="contained"
+                            color={"error"}
+                        >
+                            remove
+                        </Button>
                     </div>
                 )
+            case 'organizationRole':
+                return representative[columnId].name
+            case 'facility':
+                return representative[columnId]?.id || 'not assign'
             // default:
             //     return representative[columnId]
         }
@@ -72,9 +93,9 @@ const All = observer(() => {
                 <TablePagination
                     rowsPerPageOptions={[1, 5, 10, 25]}
                     component="div"
-                    count={representativeContainer.totalElements}
-                    rowsPerPage={representativeContainer.pageSize}
-                    page={representativeContainer.pageNumber}
+                    count={representativeStore.totalElements}
+                    rowsPerPage={representativeStore.pageSize}
+                    page={representativeStore.pageNumber}
                     onPageChange={handleChangePageNumber}
                     onRowsPerPageChange={handleChangePageSize}
                 />
@@ -95,7 +116,7 @@ const All = observer(() => {
                         </TableHead>
                         <TableBody>
                             {
-                                representativeContainer.representatives.map((representative, index) => {
+                                props.representatives.map((representative, index) => {
                                     return (
                                         <TableRow hover tabIndex={-1} key={index}>
                                             {columns.map((column) => {

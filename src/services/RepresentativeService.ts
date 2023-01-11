@@ -1,5 +1,5 @@
 import {RepresentativeApi} from "../api/RepresentativeApi";
-import representativeContainer from "../stores/representativeContainer";
+import representativeContainer from "../stores/representativeStore";
 
 export class RepresentativeService {
 
