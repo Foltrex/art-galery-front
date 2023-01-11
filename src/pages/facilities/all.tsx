@@ -1,11 +1,11 @@
-import { Typography, Stack, Button, TablePagination, TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material';
+import { Typography, Stack, Button, TablePagination, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Box } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import React from 'react';
 import FacilityTable from '../../components/tables/FacilityTable';
 import representativeContainer from '../../stores/representativeStore';
 import styles from './all.module.css';
 
-const Facilities = () => {
+const All = () => {
     const columns = [
         {id: 'number', label: '#', minWidth: 5, align: "center"},
         // {id: 'firstname', label: 'Firstname', minWidth: 150, align: 'center'},
@@ -35,13 +35,18 @@ const Facilities = () => {
 
     return (
         <div>
+            <Box sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between'
+            }}>
+                <Typography variant={"h4"} align={"left"}><b>Facilities</b></Typography>
+                <Button style={{marginLeft: '1%'}} variant={"contained"} color={"primary"}>
+                    Create facility
+                </Button>
+            </Box>
             <Paper sx={{width: '100%', overflow: 'hidden'}} style={{marginTop: "1%"}}>
-                <Typography variant={"h4"} align={"center"}><b>Facilities</b></Typography>
 
-                <Stack direction="row" spacing={2} style={{marginLeft: "1%"}}>
-                    <Button variant={"contained"} color={"error"}>Back to menu</Button>
-                    <Button variant={"contained"} color={"primary"}>Create representative</Button>
-                </Stack>
                 <TablePagination
                     rowsPerPageOptions={[1, 5, 10, 25]}
                     component="div"
@@ -67,7 +72,7 @@ const Facilities = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {
+                            {/* {
                                 facilityContainer.facilities
                                     .map((row, index) => {
                                         return (
@@ -82,7 +87,7 @@ const Facilities = () => {
                                             </TableRow>
                                         );
                                     })
-                            }
+                            } */}
                         </TableBody>
                     </Table>
                 </TableContainer>
@@ -91,4 +96,4 @@ const Facilities = () => {
     );
 };
 
-export default Facilities;
+export default All;

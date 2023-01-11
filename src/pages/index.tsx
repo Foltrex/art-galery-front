@@ -5,14 +5,7 @@ import representativeStore from "../stores/representativeStore";
 
 function Home() {
   return (
-      <ul>
-        <li>
-          <Link href="/">Home</Link>
-        </li>
-        <li>
-          <Link href={"/representatives/all"}>Representative</Link>
-        </li>
-      </ul>
+    <div></div>
   )
 }
 
