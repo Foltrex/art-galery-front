@@ -1,5 +1,7 @@
 import axios from "axios";
 
+export const ART_SERVICE = "art-service"
+
 export let axiosApi = axios.create();
 
 if (typeof window !== 'undefined') {

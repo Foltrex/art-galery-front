@@ -9,6 +9,7 @@ import TablePagination from '@mui/material/TablePagination';
 import {Button, Paper, Stack, Typography} from "@mui/material";
 import representativeContainer from "../../stores/representativeContainer";
 import {observer} from "mobx-react-lite";
+import {RepresentativeService} from "../../services/RepresentativeService";
 
 
 const All = observer(() => {
@@ -52,14 +53,17 @@ const All = observer(() => {
                         {/*</Button>*/}
                     </div>
                 )
-            default:
-                return representative[columnId]
+            // default:
+            //     return representative[columnId]
         }
     }
 
     return (
         <div>
             <Paper sx={{width: '100%', overflow: 'hidden'}} style={{paddingTop: "1%"}}>
+                <Button variant={"contained"} onClick={() => RepresentativeService.getAllRepresentative()}>Get
+                    all</Button>
+
                 <Typography variant={"h4"} align={"center"}><b>Representative list</b></Typography>
                 <Stack direction="row" spacing={2} style={{marginLeft: "1%"}}>
                     <Button variant={"contained"} color={"error"}>Back to menu</Button>
@@ -91,20 +95,19 @@ const All = observer(() => {
                         </TableHead>
                         <TableBody>
                             {
-                                representativeContainer.representatives
-                                    .map((row, index) => {
-                                        return (
-                                            <TableRow hover role="checkbox" tabIndex={-1} key={index}>
-                                                {columns.map((column) => {
-                                                    return (
-                                                        <TableCell key={column.id}>
-                                                            {displayData(column.id, index, row)}
-                                                        </TableCell>
-                                                    );
-                                                })}
-                                            </TableRow>
-                                        );
-                                    })
+                                representativeContainer.representatives.map((representative, index) => {
+                                    return (
+                                        <TableRow hover tabIndex={-1} key={index}>
+                                            {columns.map((column) => {
+                                                return (
+                                                    <TableCell key={column.id} align={"center"}>
+                                                        {displayData(column.id, index, representative)}
+                                                    </TableCell>
+                                                );
+                                            })}
+                                        </TableRow>
+                                    );
+                                })
                             }
                         </TableBody>
                     </Table>

@@ -1,24 +1,16 @@
 import {makeAutoObservable} from "mobx";
+import {Representative} from "../entities/representative";
 
 class RepresentativeContainer {
 
-    representatives = [];
-    representative = null;
+    representatives: Representative[] = [];
+    representative?: Representative;
     totalElements = 0;
     pageSize = 10;
     pageNumber = 0;
-    count = 0;
 
     constructor() {
         makeAutoObservable(this);
-    }
-
-    increment() {
-        this.count += 1;
-    }
-
-    decrement() {
-        this.count -= 1;
     }
 
     setPageSize(pageSize: number) {
@@ -29,8 +21,8 @@ class RepresentativeContainer {
         this.pageNumber = pageNumber;
     }
 
-    fetchRepresentatives() {
-
+    setRepresentatives(representatives: Representative[]) {
+        this.representatives = representatives;
     }
 
 }
