@@ -1,39 +1,54 @@
 import React from 'react';
-import styles from './FacilityTable.module.css';
+import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
 
-const FacitilyTable = () => {
+const FacilityTable = () => {
+
+    const columns = [
+        {id: 'number', label: '#', minWidth: 5, align: "center"},
+        {id: 'name', label: 'Name', minWidth: 150, align: "center"},
+        {id: 'isActive', label: 'Activity', minWidth: 150, align: "center"},
+        {id: 'address', label: 'Address', minWidth: 150, align: "center"},
+        {id: 'organization', label: 'Organization', minWidth: 150, align: "center"},
+        {id: 'action', label: 'Action', minWidth: 150, align: "center"}
+    ];
+
 
     return (
-        <div>
-            <table>
-                <thead>
-                    <tr>
-                        <th scope='col'>#</th>
-                        <th scope='col'>Name</th>
-                        <th scope='col'>Activity</th>
-                        <th scope='col'>Address</th>
-                        <th scope='col'>Organization</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Lidbeer</td>
-                        <td>Active</td>
-                        <td>Kulman 27</td>
-                        <td>OOO Lidbeerus</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Lidbeer</td>
-                        <td>Active</td>
-                        <td>Kulman 27</td>
-                        <td>OOO Lidbeerus</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    );
+        <TableContainer>
+            <Table stickyHeader aria-label="sticky table">
+                <TableHead>
+                    <TableRow>
+                        {columns.map((column) => (
+                            <TableCell
+                                key={column.id}
+                                align={"center"}
+                                style={{minWidth: column.minWidth}}
+                            >
+                                <b>{column.label}</b>
+                            </TableCell>
+                        ))}
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {/* {
+                                facilityContainer.facilities
+                                    .map((row, index) => {
+                                        return (
+                                            <TableRow hover role="checkbox" tabIndex={-1} key={index}>
+                                                {columns.map((column) => {
+                                                    return (
+                                                        <TableCell key={column.id}>
+
+                                                        </TableCell>
+                                                    );
+                                                })}
+                                            </TableRow>
+                                        );
+                                    })
+                            } */}
+                </TableBody>
+            </Table>
+        </TableContainer>);
 };
 
-export default FacitilyTable;
+export default FacilityTable;

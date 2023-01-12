@@ -99,17 +99,17 @@ const Layout: React.FC<PropsWithChildren> = ({children}) => {
                     >
                         <MenuIcon/>
                     </IconButton>
-                    <Typography 
-                        variant="h6" 
-                        noWrap 
-                        component={Link} 
-                        href='/' 
+                    <Typography
+                        variant="h6"
+                        noWrap
+                        component={Link}
+                        href='/'
                         color='white'
-                        sx={{ flexGrow: 1, textDecoration: 'none'}}>
+                        sx={{flexGrow: 1, textDecoration: 'none'}}>
                         Admin
                     </Typography>
-                    <Button 
-                        color="inherit" 
+                    <Button
+                        color="inherit"
                         variant="outlined"
                         component={Link}
                         href='/security/signin'
@@ -138,7 +138,10 @@ const Layout: React.FC<PropsWithChildren> = ({children}) => {
                 </DrawerHeader>
                 <Divider/>
                 <List>
-                    <ListItem key={'Account'} component={Link} href='/'>
+                    <ListItem key={'Account'}
+                              component={Link}
+                              style={{color: "black"}}
+                              href='/'>
                         <ListItemButton>
                             <ListItemIcon>
                                 <AccountCircleOutlinedIcon/>
@@ -146,7 +149,9 @@ const Layout: React.FC<PropsWithChildren> = ({children}) => {
                             <ListItemText primary='Account'/>
                         </ListItemButton>
                     </ListItem>
-                    <ListItem key={'Representative'} component={Link}
+                    <ListItem key={'Representatives'}
+                              component={Link}
+                              style={{color: "black"}}
                               href={{
                                   pathname: '/representatives/all',
                                   query: {
@@ -158,10 +163,21 @@ const Layout: React.FC<PropsWithChildren> = ({children}) => {
                             <ListItemIcon>
                                 <HomeWorkOutlinedIcon/>
                             </ListItemIcon>
-                            <ListItemText primary='Representative'/>
+                            <ListItemText primary='Representatives'/>
                         </ListItemButton>
                     </ListItem>
-                    <ListItem key={'Facilities'} component={Link} href='/facilities/all'>
+                    <ListItem key={'Facilities'}
+                              component={Link}
+                              style={{color: "black"}}
+                              href={{
+                                  pathname: '/facilities/all',
+                                  query: {
+                                      page: 0,
+                                      limit: 10
+                                  }
+                              }}
+                    >
+
                         <ListItemButton>
                             <ListItemIcon>
                                 <PhotoSizeSelectActualOutlinedIcon/>

@@ -5,18 +5,17 @@ import FacilityForm from '../../components/forms/FacilityForm';
 import FacilityTable from '../../components/tables/FacilityTable';
 import representativeContainer from '../../stores/representativeStore';
 import styles from './all.module.css';
+import {Representative} from "../../entities/representative";
+import {Facility} from "../../entities/facility";
+
+export interface TFacilityPageProps {
+    representatives: Facility[],
+    pageNumber: number,
+    pageSize: number,
+    totalElements: number,
+}
 
 const All = () => {
-    const columns = [
-        {id: 'number', label: '#', minWidth: 5, align: "center"},
-        // {id: 'firstname', label: 'Firstname', minWidth: 150, align: 'center'},
-        // {id: 'lastname', label: 'Lastname', minWidth: 150, align: 'center'},
-        {id: 'email', label: 'Name', minWidth: 150, align: "center"},
-        {id: 'role', label: 'Activity', minWidth: 150, align: "center"},
-        {id: 'facility', label: 'Address', minWidth: 150, align: "center"},
-        // {id: 'createdDate', label: 'Register date', minWidth: 100, align: '"center"'},
-        {id: 'action', label: 'Organization', minWidth: 150, align: "center"}
-    ];
 
     const handleChangePage = () => {
         // representativeContainer.setPageNumber(newPage);
@@ -67,41 +66,7 @@ const All = () => {
                     onPageChange={handleChangePage}
                     onRowsPerPageChange={handleChangeRowsPerPage}
                 />
-                <TableContainer>
-                    <Table stickyHeader aria-label="sticky table">
-                        <TableHead>
-                            <TableRow>
-                                {columns.map((column) => (
-                                    <TableCell
-                                        key={column.id}
-                                        align={"center"}
-                                        style={{minWidth: column.minWidth}}
-                                    >
-                                        <b>{column.label}</b>
-                                    </TableCell>
-                                ))}
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {/* {
-                                facilityContainer.facilities
-                                    .map((row, index) => {
-                                        return (
-                                            <TableRow hover role="checkbox" tabIndex={-1} key={index}>
-                                                {columns.map((column) => {
-                                                    return (
-                                                        <TableCell key={column.id}>
-
-                                                        </TableCell>
-                                                    );
-                                                })}
-                                            </TableRow>
-                                        );
-                                    })
-                            } */}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+                <FacilityTable/>
             </Paper>
         </div>
     );

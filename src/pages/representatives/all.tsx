@@ -80,7 +80,7 @@ const All: NextPage<TRepresentativePageProps> = observer((props) => {
 export default All;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-    if (context.query.page === undefined && context.query.limit === undefined) {
+    if (context.query.page === undefined || context.query.limit === undefined) {
         return {
             redirect: {
                 destination: '/representatives/all?page=0&limit=10',
