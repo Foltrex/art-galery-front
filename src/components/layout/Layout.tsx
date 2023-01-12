@@ -20,6 +20,7 @@ import HomeWorkOutlinedIcon from '@mui/icons-material/HomeWorkOutlined';
 import PhotoSizeSelectActualOutlinedIcon from '@mui/icons-material/PhotoSizeSelectActualOutlined';
 import React, {PropsWithChildren} from "react";
 import Link from "next/link";
+import Button from "@mui/material/Button";
 
 const drawerWidth = 240;
 
@@ -98,9 +99,23 @@ const Layout: React.FC<PropsWithChildren> = ({children}) => {
                     >
                         <MenuIcon/>
                     </IconButton>
-                    <Typography variant="h6" noWrap component="div">
+                    <Typography 
+                        variant="h6" 
+                        noWrap 
+                        component={Link} 
+                        href='/' 
+                        color='white'
+                        sx={{ flexGrow: 1, textDecoration: 'none'}}>
                         Admin
                     </Typography>
+                    <Button 
+                        color="inherit" 
+                        variant="outlined"
+                        component={Link}
+                        href='/security/signin'
+                    >
+                        Login
+                    </Button>
                 </Toolbar>
             </AppBar>
             <Drawer
@@ -123,7 +138,7 @@ const Layout: React.FC<PropsWithChildren> = ({children}) => {
                 </DrawerHeader>
                 <Divider/>
                 <List>
-                    <ListItem key={'Account'}>
+                    <ListItem key={'Account'} component={Link} href='/'>
                         <ListItemButton>
                             <ListItemIcon>
                                 <AccountCircleOutlinedIcon/>
