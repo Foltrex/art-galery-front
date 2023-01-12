@@ -13,16 +13,25 @@ export class RepresentativeStore {
         makeAutoObservable(this);
     }
 
+    setRepresentatives(representatives: Representative[]) {
+        this.representatives = representatives;
+    }
+
+    setRepresentative(representative: Representative) {
+        this.representative = representative;
+    }
+
+    setTotalElements(totalElements: number) {
+        this.totalElements = totalElements;
+    }
+
+
     setPageSize(pageSize: number) {
         this.pageSize = pageSize;
     }
 
     setPageNumber(pageNumber: number) {
         this.pageNumber = pageNumber;
-    }
-
-    setRepresentatives(representatives: Representative[]) {
-        this.representatives = representatives;
     }
 
 }

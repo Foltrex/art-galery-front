@@ -1,84 +1,24 @@
-import React, { useState } from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import TableCell from '@mui/material/TableCell';
+import React, {useState} from 'react';
 import TablePagination from '@mui/material/TablePagination';
-import {Button, Paper, Stack, Typography} from "@mui/material";
+import {Box, Button, Paper, Typography} from "@mui/material";
 import representativeStore from "../../stores/representativeStore";
 import {observer} from "mobx-react-lite";
 import {RepresentativeService} from "../../services/RepresentativeService";
-import {GetStaticProps, NextPage} from "next";
+import {GetServerSideProps, NextPage} from "next";
 import {Representative} from "../../entities/representative";
+import {useRouter} from "next/router";
+import RepresentativeTable from "../../components/tables/RepresentativeTable";
 import RepresentativeForm from '../../components/forms/RepresentativeForm';
 
-interface TProps {
-    representatives: Representative[];
+export interface TRepresentativePageProps {
+    representatives: Representative[],
+    pageNumber: number,
+    pageSize: number,
+    totalElements: number,
 }
 
-export const getStaticProps: GetStaticProps = async () => {
-    await RepresentativeService.getAllRepresentative();
-    return {
-        props: {
-            representatives: representativeStore.representatives,
-        },
-    };
-}
-
-const All: NextPage<TProps> = observer((props) => {
-    console.log(props)
-
-    const columns = [
-        {id: 'number', label: '№', minWidth: 5, align: "center"},
-        {id: 'email', label: 'Email', minWidth: 150, align: "center"},
-        {id: 'organizationRole', label: 'Role', minWidth: 150, align: "center"},
-        {id: 'facility', label: 'Facility info', minWidth: 150, align: "center"},
-        {id: 'action', label: 'Action', minWidth: 150, align: "center"}
-    ];
-
-    const handleChangePageNumber = (event: any, page: number) => {
-        representativeStore.setPageNumber(page);
-    };
-
-    const handleChangePageSize = (event: any) => {
-        representativeStore.setPageSize(+event.target.value)
-        representativeStore.setPageNumber(0)
-    };
-
-    const displayData = (columnId: string, index: number, representative: any) => {
-        switch (columnId) {
-            case 'number':
-                return (<div>{index + 1 + representativeStore.pageSize * representativeStore.pageNumber}</div>)
-            case 'action':
-                return (
-                    <div>
-                        <Button
-                            style={{minWidth: "100px"}}
-                            variant="contained"
-                            color={"success"}
-                        >
-                            Edit
-                        </Button>
-                        {' '}
-                        <Button
-                            style={{minWidth: "100px"}}
-                            variant="contained"
-                            color={"error"}
-                        >
-                            remove
-                        </Button>
-                    </div>
-                )
-            case 'organizationRole':
-                return representative[columnId].name
-            case 'facility':
-                return representative[columnId]?.id || 'not assign'
-            // default:
-            //     return representative[columnId]
-        }
-    }
+const All: NextPage<TRepresentativePageProps> = observer((props) => {
+    const router = useRouter();
 
     const [open, setOpen] = useState(false);
 
@@ -90,64 +30,72 @@ const All: NextPage<TProps> = observer((props) => {
         setOpen(false);
     }
 
+    const updateQuery = (limit: number, page: number) => {
+        router.push({
+            pathname: router.pathname,
+            query: {limit: limit, page: page},
+        });
+    };
+
+    const handleChangePageNumber = (event: any, page: number) => {
+        updateQuery(props.pageSize, page)
+        representativeStore.setPageNumber(page);
+    };
+
+    const handleChangePageSize = (event: any) => {
+        const size = +event.target.value;
+        updateQuery(size, 0)
+        representativeStore.setPageSize(size)
+        representativeStore.setPageNumber(0)
+    };
+
     return (
         <div>
             <Paper sx={{width: '100%', overflow: 'hidden'}} style={{paddingTop: "1%"}}>
-                <Button variant={"contained"} onClick={() => RepresentativeService.getAllRepresentative()}>Get
-                    all</Button>
-
-                <Typography variant={"h4"} align={"center"}><b>Representative list</b></Typography>
-                <Stack direction="row" spacing={2} style={{marginLeft: "1%"}}>
-                    <Button variant={"contained"} color={"error"}>Back to menu</Button>
-                    <Button variant={"contained"} color={"primary"} onClick={handleOpenClick}>Create representative</Button>
-                    <RepresentativeForm open={open} handleClose={handleClose} />
-                </Stack>
+                <Typography variant={"h4"} align={"center"}><b>Representatives</b></Typography>
+                <Box textAlign='center' style={{marginTop: "10px"}}>
+                    <Button variant={"contained"} color={"primary"} onClick={handleOpenClick}>Create
+                        representative</Button>
+                    <RepresentativeForm open={open} handleClose={handleClose}/>
+                </Box>
                 <TablePagination
-                    rowsPerPageOptions={[1, 5, 10, 25]}
+                    rowsPerPageOptions={[1, 5, 10, 20, 25]}
                     component="div"
-                    count={representativeStore.totalElements}
-                    rowsPerPage={representativeStore.pageSize}
-                    page={representativeStore.pageNumber}
+                    count={props.totalElements}
+                    rowsPerPage={props.pageSize}
+                    page={props.pageNumber}
                     onPageChange={handleChangePageNumber}
                     onRowsPerPageChange={handleChangePageSize}
                 />
-                <TableContainer>
-                    <Table stickyHeader aria-label="sticky table">
-                        <TableHead>
-                            <TableRow>
-                                {columns.map((column) => (
-                                    <TableCell
-                                        key={column.id}
-                                        align={"center"}
-                                        style={{minWidth: column.minWidth}}
-                                    >
-                                        <b>{column.label}</b>
-                                    </TableCell>
-                                ))}
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {
-                                props.representatives.map((representative, index) => {
-                                    return (
-                                        <TableRow hover tabIndex={-1} key={index}>
-                                            {columns.map((column) => {
-                                                return (
-                                                    <TableCell key={column.id} align={"center"}>
-                                                        {displayData(column.id, index, representative)}
-                                                    </TableCell>
-                                                );
-                                            })}
-                                        </TableRow>
-                                    );
-                                })
-                            }
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+                <RepresentativeTable representatives={props.representatives}
+                                     pageNumber={props.pageNumber}
+                                     pageSize={props.pageSize}
+                                     totalElements={props.totalElements}
+                />
             </Paper>
         </div>
-    );
+    )
 })
 
 export default All;
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    if (context.query.page === undefined && context.query.limit === undefined) {
+        return {
+            redirect: {
+                destination: '/representatives/all?page=0&limit=10',
+                permanent: false,
+            },
+        }
+    }
+    await RepresentativeService.getAllRepresentative(Number(context.query.page), Number(context.query.limit));
+
+    return {
+        props: {
+            representatives: representativeStore.representatives,
+            pageNumber: representativeStore.pageNumber,
+            pageSize: representativeStore.pageSize,
+            totalElements: representativeStore.totalElements
+        },
+    };
+}
