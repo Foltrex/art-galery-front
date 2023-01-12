@@ -1,4 +1,4 @@
-import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Grid } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Grid, Divider } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import React from 'react';
@@ -11,8 +11,9 @@ interface FacilityFormProps {
 
 const FacilityForm = ({open, handleClose} : FacilityFormProps) => {
     return (
-        <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Subscribe</DialogTitle>
+      <Dialog open={open} onClose={handleClose} maxWidth='xs'>
+        <DialogTitle>Create facility</DialogTitle>
+        <Divider />
         <DialogContent>
             <Grid container rowSpacing='3'>
                 <Grid item xs={12}>
@@ -58,7 +59,7 @@ const FacilityForm = ({open, handleClose} : FacilityFormProps) => {
             </Grid>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} variant='contained'>Cancel</Button>
+          <Button onClick={handleClose} color='error' variant='contained'>Cancel</Button>
           <Button onClick={handleClose} variant='contained'>Create</Button>
         </DialogActions>
       </Dialog>
