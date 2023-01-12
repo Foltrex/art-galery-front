@@ -2,10 +2,13 @@ import Link from 'next/link'
 import {GetStaticProps} from "next";
 import {RepresentativeService} from "../services/RepresentativeService";
 import representativeStore from "../stores/representativeStore";
+import FacilityForm from '../components/forms/FacilityForm';
 
 function Home() {
   return (
-    <div></div>
+    <div>
+      <FacilityForm />
+    </div>
   )
 }
 
