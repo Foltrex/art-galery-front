@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
@@ -12,6 +12,7 @@ import {observer} from "mobx-react-lite";
 import {RepresentativeService} from "../../services/RepresentativeService";
 import {GetStaticProps, NextPage} from "next";
 import {Representative} from "../../entities/representative";
+import RepresentativeForm from '../../components/forms/RepresentativeForm';
 
 interface TProps {
     representatives: Representative[];
@@ -79,6 +80,16 @@ const All: NextPage<TProps> = observer((props) => {
         }
     }
 
+    const [open, setOpen] = useState(false);
+
+    const handleOpenClick = () => {
+        setOpen(true);
+    }
+
+    const handleClose = () => {
+        setOpen(false);
+    }
+
     return (
         <div>
             <Paper sx={{width: '100%', overflow: 'hidden'}} style={{paddingTop: "1%"}}>
@@ -88,7 +99,8 @@ const All: NextPage<TProps> = observer((props) => {
                 <Typography variant={"h4"} align={"center"}><b>Representative list</b></Typography>
                 <Stack direction="row" spacing={2} style={{marginLeft: "1%"}}>
                     <Button variant={"contained"} color={"error"}>Back to menu</Button>
-                    <Button variant={"contained"} color={"primary"}>Create representative</Button>
+                    <Button variant={"contained"} color={"primary"} onClick={handleOpenClick}>Create representative</Button>
+                    <RepresentativeForm open={open} handleClose={handleClose} />
                 </Stack>
                 <TablePagination
                     rowsPerPageOptions={[1, 5, 10, 25]}

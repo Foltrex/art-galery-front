@@ -7,7 +7,6 @@ import FacilityForm from '../components/forms/FacilityForm';
 function Home() {
   return (
     <div>
-      <FacilityForm />
     </div>
   )
 }

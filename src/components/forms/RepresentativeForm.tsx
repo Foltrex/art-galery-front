@@ -2,14 +2,13 @@ import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, B
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import React from 'react';
-import styles from './FaiclityForm.module.css';
 
-interface FacilityFormProps {
+interface RepresentativeFormProps {
     open: boolean
     handleClose: () => void
 }
 
-const FacilityForm = ({open, handleClose} : FacilityFormProps) => {
+const RepresentativeForm = ({open, handleClose} : RepresentativeFormProps) => {
     return (
         <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Subscribe</DialogTitle>
@@ -18,8 +17,8 @@ const FacilityForm = ({open, handleClose} : FacilityFormProps) => {
                 <Grid item xs={12}>
                     <TextField
                         autoFocus
-                        id="name"
-                        label="Name"
+                        id="email"
+                        label="Email"
                         type="name"
                         fullWidth
                         required
@@ -28,7 +27,8 @@ const FacilityForm = ({open, handleClose} : FacilityFormProps) => {
                 </Grid>
                 <Grid item xs={12}>
                     <TextField 
-                        label='Activity'
+                        id='role'
+                        label='Role'
                         fullWidth
                         variant='standard'
                         type='name'
@@ -37,8 +37,8 @@ const FacilityForm = ({open, handleClose} : FacilityFormProps) => {
                 </Grid>
                 <Grid item xs={12}>
                     <TextField 
-                        id='address'
-                        label='Address'
+                        id='facility'
+                        label='Facility'
                         fullWidth
                         variant='standard'
                         type='name'
@@ -47,8 +47,8 @@ const FacilityForm = ({open, handleClose} : FacilityFormProps) => {
                 </Grid>
                 <Grid item xs={12}>
                     <TextField 
-                        id='organizaiton'
-                        label='Organization'
+                        id='action'
+                        label='Action'
                         fullWidth
                         variant='standard'
                         type='name'
@@ -65,4 +65,4 @@ const FacilityForm = ({open, handleClose} : FacilityFormProps) => {
     );
 };
 
-export default FacilityForm;
+export default RepresentativeForm;
