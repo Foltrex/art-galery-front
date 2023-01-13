@@ -11,13 +11,13 @@ import { FacilityService } from '../../services/FacilityService';
 import facilityStore from '../../stores/facilityStore';
 
 export interface TFacilityPageProps {
-    facilities?: Facility[],
+    facilities: Facility[],
     pageNumber: number,
     pageSize: number,
     totalElements: number,
 }
 
-const All: NextPage<TFacilityPageProps> = observer(({facilities, pageNumber, pageSize, totalElements}) => {
+const All: NextPage<TFacilityPageProps> = observer(({facilities = [], pageNumber, pageSize, totalElements}) => {
     const router = useRouter();
 
     const [open, setOpen] = useState(false);
