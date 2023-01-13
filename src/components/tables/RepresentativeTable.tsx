@@ -5,7 +5,7 @@ import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
-import {TRepresentativePageProps} from "../../pages/representatives/all";
+import {TRepresentativePageProps} from "../../pages/representatives";
 import RepresentativeTableItem from "../table-items/RepresentativeTableItem";
 
 const RepresentativeTable: React.FC<TRepresentativePageProps> = (props) => {

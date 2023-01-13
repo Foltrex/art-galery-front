@@ -153,7 +153,7 @@ const Layout: React.FC<PropsWithChildren> = ({children}) => {
                               component={Link}
                               style={{color: "black"}}
                               href={{
-                                  pathname: '/representatives/all',
+                                  pathname: '/representatives',
                                   query: {
                                       page: 0,
                                       limit: 10
@@ -170,7 +170,7 @@ const Layout: React.FC<PropsWithChildren> = ({children}) => {
                               component={Link}
                               style={{color: "black"}}
                               href={{
-                                  pathname: '/facilities/all',
+                                  pathname: '/facilities',
                                   query: {
                                       page: 0,
                                       limit: 10

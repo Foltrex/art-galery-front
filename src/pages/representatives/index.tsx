@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import TablePagination from '@mui/material/TablePagination';
 import {Box, Button, Paper, Typography} from "@mui/material";
 import {observer} from "mobx-react-lite";
 import {RepresentativeService} from "../../services/RepresentativeService";
@@ -9,6 +8,7 @@ import {useRouter} from "next/router";
 import RepresentativeTable from "../../components/tables/RepresentativeTable";
 import RepresentativeForm from '../../components/forms/RepresentativeForm';
 import representativeStore from "../../stores/representativeStore";
+import RepresentativeTablePagination from "../../components/table-paginations/RepresentativeTablePagination";
 
 export interface TRepresentativePageProps {
     representatives: Representative[],
@@ -17,9 +17,7 @@ export interface TRepresentativePageProps {
     totalElements: number,
 }
 
-const All: NextPage<TRepresentativePageProps> = observer((props) => {
-    const router = useRouter();
-
+const Index: NextPage<TRepresentativePageProps> = observer((props) => {
     const [open, setOpen] = useState(false);
 
     const handleOpenClick = () => {
@@ -30,25 +28,6 @@ const All: NextPage<TRepresentativePageProps> = observer((props) => {
         setOpen(false);
     }
 
-    const updateQuery = (limit: number, page: number) => {
-        router.push({
-            pathname: router.pathname,
-            query: {limit: limit, page: page},
-        });
-    };
-
-    const handleChangePageNumber = (event: any, page: number) => {
-        updateQuery(props.pageSize, page)
-        representativeStore.setPageNumber(page);
-    };
-
-    const handleChangePageSize = (event: any) => {
-        const size = +event.target.value;
-        updateQuery(size, 0)
-        representativeStore.setPageSize(size)
-        representativeStore.setPageNumber(0)
-    };
-
     return (
         <div>
             <Paper sx={{width: '100%', overflow: 'hidden'}} style={{paddingTop: "1%"}}>
@@ -58,14 +37,10 @@ const All: NextPage<TRepresentativePageProps> = observer((props) => {
                         representative</Button>
                     <RepresentativeForm open={open} handleClose={handleClose}/>
                 </Box>
-                <TablePagination
-                    rowsPerPageOptions={[1, 5, 10, 20, 25]}
-                    component="div"
-                    count={props.totalElements}
-                    rowsPerPage={props.pageSize}
-                    page={props.pageNumber}
-                    onPageChange={handleChangePageNumber}
-                    onRowsPerPageChange={handleChangePageSize}
+                <RepresentativeTablePagination
+                    pageNumber={props.pageNumber}
+                    pageSize={props.pageSize}
+                    totalElements={props.totalElements}
                 />
                 <RepresentativeTable representatives={props.representatives}
                                      pageNumber={props.pageNumber}
@@ -77,13 +52,13 @@ const All: NextPage<TRepresentativePageProps> = observer((props) => {
     )
 })
 
-export default All;
+export default Index;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
     if (context.query.page === undefined || context.query.limit === undefined) {
         return {
             redirect: {
-                destination: '/representatives/all?page=0&limit=10',
+                destination: '/representatives?page=0&limit=10',
                 permanent: false,
             },
         }

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
-import { TFacilityPageProps } from '../../pages/facilities/all';
+import { TFacilityPageProps } from '../../pages/facilities';
 import FacilityTableItem from '../table-items/FacilityTableItem';
 
 const FacilityTable: React.FC<TFacilityPageProps> = ({facilities, pageNumber, pageSize}) => {
