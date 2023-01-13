@@ -1,25 +1,23 @@
-import { Typography, Stack, Button, TablePagination, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Box } from '@mui/material';
+import { Box, Button, TablePagination, Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
-import React, { useState } from 'react';
+import { observer } from 'mobx-react-lite';
+import { GetServerSideProps, NextPage } from 'next';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
 import FacilityForm from '../../components/forms/FacilityForm';
 import FacilityTable from '../../components/tables/FacilityTable';
-import representativeContainer from '../../stores/representativeStore';
-import styles from './all.module.css';
-import {Representative} from "../../entities/representative";
-import {Facility} from "../../entities/facility";
-import { observer } from 'mobx-react-lite';
-import { NextPage } from 'next';
-import { useRouter } from 'next/router';
+import { Facility } from "../../entities/facility";
+import { FacilityService } from '../../services/FacilityService';
 import facilityStore from '../../stores/facilityStore';
 
 export interface TFacilityPageProps {
-    facilities: Facility[],
+    facilities?: Facility[],
     pageNumber: number,
     pageSize: number,
     totalElements: number,
 }
 
-const All: NextPage<TFacilityPageProps> = observer((props) => {
+const All: NextPage<TFacilityPageProps> = observer(({facilities, pageNumber, pageSize, totalElements}) => {
     const router = useRouter();
 
     const [open, setOpen] = useState(false);
@@ -40,7 +38,7 @@ const All: NextPage<TFacilityPageProps> = observer((props) => {
     }
     
     const handleChangePageNumber = (event: any, page: number) => {
-        updateQuery(props.pageSize, page);
+        updateQuery(pageSize, page);
         facilityStore.setPageNumber(page);
     };
 
@@ -74,19 +72,40 @@ const All: NextPage<TFacilityPageProps> = observer((props) => {
                 <TablePagination
                     rowsPerPageOptions={[1, 5, 10, 25]}
                     component="div"
-                    count={representativeContainer.totalElements}
-                    rowsPerPage={representativeContainer.pageSize}
-                    page={representativeContainer.pageNumber}
+                    count={facilityStore.totalElements}
+                    rowsPerPage={facilityStore.pageSize}
+                    page={facilityStore.pageNumber}
                     onPageChange={handleChangePageNumber}
                     onRowsPerPageChange={handleChangePageSize}
                 />
-                <FacilityTable facilities={props.facilities}
-                               pageNumber={props.pageNumber}
-                               pageSize={props.pageSize}
-                               totalElements={props.totalElements}/>
+                <FacilityTable facilities={facilities}
+                               pageNumber={pageNumber}
+                               pageSize={pageSize}
+                               totalElements={totalElements}/>
             </Paper>
         </div>
     );
 });
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    if (context.query.page === undefined || context.query.limit === undefined) {
+        return {
+            redirect: {
+                destination: '/facilities/all?page=0&limit=10',
+                permanent: false,
+            },
+        }
+    }
+    await FacilityService.getAllFacilities(Number(context.query.page), Number(context.query.limit));
+
+    return {
+        props: {
+            facilities: facilityStore.facilities,
+            pageNumber: facilityStore.pageNumber,
+            pageSize: facilityStore.pageSize,
+            totalElements: facilityStore.totalElements
+        },
+    };
+}
 
 export default All;

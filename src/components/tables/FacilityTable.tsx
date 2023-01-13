@@ -3,7 +3,7 @@ import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "
 import { TFacilityPageProps } from '../../pages/facilities/all';
 import FacilityTableItem from '../table-items/FacilityTableItem';
 
-const FacilityTable: React.FC<TFacilityPageProps> = ({facilities, pageNumber, pageSize}) => {
+const FacilityTable: React.FC<TFacilityPageProps> = ({facilities = [], pageNumber, pageSize}) => {
 
     const columns = [
         {id: 'number', label: '#', minWidth: 5, align: "center"},

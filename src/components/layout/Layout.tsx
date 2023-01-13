@@ -138,7 +138,7 @@ const Layout: React.FC<PropsWithChildren> = ({children}) => {
                 </DrawerHeader>
                 <Divider/>
                 <List>
-                    <ListItem key={'Account'}
+                    <ListItem key={'Organization'}
                               component={Link}
                               style={{color: "black"}}
                               href='/'>
@@ -146,7 +146,7 @@ const Layout: React.FC<PropsWithChildren> = ({children}) => {
                             <ListItemIcon>
                                 <AccountCircleOutlinedIcon/>
                             </ListItemIcon>
-                            <ListItemText primary='Account'/>
+                            <ListItemText primary='Organization'/>
                         </ListItemButton>
                     </ListItem>
                     <ListItem key={'Representatives'}
