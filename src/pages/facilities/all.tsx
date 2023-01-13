@@ -7,36 +7,50 @@ import representativeContainer from '../../stores/representativeStore';
 import styles from './all.module.css';
 import {Representative} from "../../entities/representative";
 import {Facility} from "../../entities/facility";
+import { observer } from 'mobx-react-lite';
+import { NextPage } from 'next';
+import { useRouter } from 'next/router';
+import facilityStore from '../../stores/facilityStore';
 
 export interface TFacilityPageProps {
-    representatives: Facility[],
+    facilities: Facility[],
     pageNumber: number,
     pageSize: number,
     totalElements: number,
 }
 
-const All = () => {
+const All: NextPage<TFacilityPageProps> = observer((props) => {
+    const router = useRouter();
 
-    const handleChangePage = () => {
-        // representativeContainer.setPageNumber(newPage);
-    };
-
-    const handleChangeRowsPerPage = () => {
-        // dispatch(setSizePage(+event.target.value));
-        // dispatch(setCurrentPage(0));
-        representativeContainer.setPageNumber(0)
-    };
-    
     const [open, setOpen] = useState(false);
-
+    
     const handleClickOpen = () => {
         setOpen(true);
     }
-
+    
     const handleClose = () => {
         setOpen(false);
     }
 
+    const updateQuery = (limit: number, page: number) => {
+        router.push({
+            pathname: router.pathname,
+            query: {limit: limit, page: page},
+        });
+    }
+    
+    const handleChangePageNumber = (event: any, page: number) => {
+        updateQuery(props.pageSize, page);
+        facilityStore.setPageNumber(page);
+    };
+
+    const handleChangePageSize = (event: any) => {
+        const size = +event.target.value;
+        updateQuery(size, 0);
+        facilityStore.setPageSize(size);
+        facilityStore.setPageNumber(0);
+    };
+    
     return (
         <div>
             <Box sx={{
@@ -63,13 +77,16 @@ const All = () => {
                     count={representativeContainer.totalElements}
                     rowsPerPage={representativeContainer.pageSize}
                     page={representativeContainer.pageNumber}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
+                    onPageChange={handleChangePageNumber}
+                    onRowsPerPageChange={handleChangePageSize}
                 />
-                <FacilityTable/>
+                <FacilityTable facilities={props.facilities}
+                               pageNumber={props.pageNumber}
+                               pageSize={props.pageSize}
+                               totalElements={props.totalElements}/>
             </Paper>
         </div>
     );
-};
+});
 
 export default All;

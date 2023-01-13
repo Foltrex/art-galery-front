@@ -1,7 +1,9 @@
 import React from 'react';
 import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
+import { TFacilityPageProps } from '../../pages/facilities/all';
+import FacilityTableItem from '../table-items/FacilityTableItem';
 
-const FacilityTable = () => {
+const FacilityTable: React.FC<TFacilityPageProps> = ({facilities, pageNumber, pageSize}) => {
 
     const columns = [
         {id: 'number', label: '#', minWidth: 5, align: "center"},
@@ -30,22 +32,24 @@ const FacilityTable = () => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {/* {
-                                facilityContainer.facilities
-                                    .map((row, index) => {
+                    {
+                        facilities.map((facility, index) => {
+                            return (
+                                <TableRow hover tabIndex={-1} key={index}>
+                                    {columns.map((column) => {
                                         return (
-                                            <TableRow hover role="checkbox" tabIndex={-1} key={index}>
-                                                {columns.map((column) => {
-                                                    return (
-                                                        <TableCell key={column.id}>
-
-                                                        </TableCell>
-                                                    );
-                                                })}
-                                            </TableRow>
+                                            <TableCell key={column.id} align={"center"}>
+                                                <FacilityTableItem
+                                                    number={index + 1 + pageSize * pageNumber}
+                                                    columnId={column.id}
+                                                    facility={facility}/>
+                                            </TableCell>
                                         );
-                                    })
-                            } */}
+                                    })}
+                                </TableRow>
+                            );
+                        })
+                    }
                 </TableBody>
             </Table>
         </TableContainer>);

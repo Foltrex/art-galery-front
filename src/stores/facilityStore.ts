@@ -1,16 +1,28 @@
 import {makeAutoObservable} from "mobx";
+import { Facility } from "../entities/facility";
 
-class FacilityContainer {
+class FacilityStore {
 
-    facilities = [];
-    facility = null;
+    facilities: Facility[] = [];
+    facility?: Facility;
     totalElements = 0;
     pageSize = 10;
     pageNumber = 0;
-    count = 0;
 
     constructor() {
         makeAutoObservable(this);
+    }
+
+    setFacilities(facilities: Facility[]) {
+        this.facilities = facilities;
+    }
+
+    setFacility(facility: Facility) {
+        this.facility = facility;
+    }
+
+    setTotalElements(totalElements: number) {
+        this.totalElements = totalElements;
     }
 
     setPageSize(pageSize: number) {
@@ -22,4 +34,4 @@ class FacilityContainer {
     }
 }
 
-export default new FacilityContainer();
+export default new FacilityStore();
