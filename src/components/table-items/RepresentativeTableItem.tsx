@@ -10,7 +10,7 @@ interface IRepresentativeTableItemProps {
 
 const RepresentativeTableItem: React.FC<IRepresentativeTableItemProps> = (props) => {
 
-    const displayData = (columnId: string, number: number, representative: Representative) => {
+    const displayData = (columnId: string, number: number, representative: any) => {
         switch (columnId) {
             case 'number':
                 return (<div>{number}</div>)
@@ -38,8 +38,8 @@ const RepresentativeTableItem: React.FC<IRepresentativeTableItemProps> = (props)
                 return representative[columnId].name
             case 'facility':
                 return representative[columnId]?.id || 'not assign'
-            // default:
-            //     return representative[columnId]
+            default:
+                return representative[columnId]
         }
     }
 

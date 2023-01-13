@@ -25,7 +25,6 @@ export class RepresentativeStore {
         this.totalElements = totalElements;
     }
 
-
     setPageSize(pageSize: number) {
         this.pageSize = pageSize;
     }

@@ -9,8 +9,11 @@ import {TRepresentativePageProps} from "../../pages/representatives/all";
 import RepresentativeTableItem from "../table-items/RepresentativeTableItem";
 
 const RepresentativeTable: React.FC<TRepresentativePageProps> = (props) => {
+
     const columns = [
         {id: 'number', label: '#', minWidth: 5, align: "center"},
+        {id: 'firstname', label: 'firstname', minWidth: 5, align: "center"},
+        {id: 'lastname', label: 'lastname', minWidth: 5, align: "center"},
         {id: 'email', label: 'Email', minWidth: 150, align: "center"},
         {id: 'organizationRole', label: 'Role', minWidth: 150, align: "center"},
         {id: 'facility', label: 'Facility info', minWidth: 150, align: "center"},

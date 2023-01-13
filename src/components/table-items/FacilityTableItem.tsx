@@ -1,6 +1,6 @@
 import Button from '@mui/material/Button';
 import * as React from 'react';
-import { Facility } from '../../entities/facility';
+import {Facility} from '../../entities/facility';
 
 interface IFacilityTableItemProps {
     number: number,
@@ -39,12 +39,12 @@ const FacilityTableItem: React.FC<IFacilityTableItemProps> = ({facility, number,
             //     return facility[columnId]?.id || 'not assign'
             default:
                 return 'something'
-                // return representative[columnId]
+            // return representative[columnId]
         }
     }
 
     return <>
-            {displayData(columnId, number, facility)}
+        {displayData(columnId, number, facility)}
     </>;
 };
 

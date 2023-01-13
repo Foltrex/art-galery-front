@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import TablePagination from '@mui/material/TablePagination';
 import {Box, Button, Paper, Typography} from "@mui/material";
-import representativeStore from "../../stores/representativeStore";
 import {observer} from "mobx-react-lite";
 import {RepresentativeService} from "../../services/RepresentativeService";
 import {GetServerSideProps, NextPage} from "next";
@@ -9,6 +8,7 @@ import {Representative} from "../../entities/representative";
 import {useRouter} from "next/router";
 import RepresentativeTable from "../../components/tables/RepresentativeTable";
 import RepresentativeForm from '../../components/forms/RepresentativeForm';
+import representativeStore from "../../stores/representativeStore";
 
 export interface TRepresentativePageProps {
     representatives: Representative[],
