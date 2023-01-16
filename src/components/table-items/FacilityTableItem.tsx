@@ -1,6 +1,8 @@
 import Button from '@mui/material/Button';
 import * as React from 'react';
 import {Facility} from '../../entities/facility';
+import FacilityForm from '../forms/FacilityForm';
+import DeleteFacilityModal from '../modals/DeleteFacilityModal';
 
 interface IFacilityTableItemProps {
     number: number,
@@ -9,10 +11,31 @@ interface IFacilityTableItemProps {
 }
 
 const FacilityTableItem: React.FC<IFacilityTableItemProps> = ({facility, number, columnId}) => {
-    const displayData = (columnId: string, number: number, facility: Facility) => {
+    
+    const [openEditFacilityModal, setOpenEditFacilityModal] = React.useState(false);
+
+    const handleOpenEditFacilityModalClick = () => {
+        setOpenEditFacilityModal(true);
+    }
+
+    const handleCloseEditFacilityModalClick = () => {
+        setOpenEditFacilityModal(false);
+    }
+
+    const [openDeleteFacilityModal, setOpenDeleteFacilityModal] = React.useState(false);
+
+    const handleOpenDeleteFacilityModalClick = () => {
+        setOpenDeleteFacilityModal(true);
+    }
+
+    const handleCloseDeleteFacilityModalClick = () => {
+        setOpenDeleteFacilityModal(false);
+    }
+
+    const displayData = (columnId: string, number: number, facility: any) => {
         switch (columnId) {
             case 'number':
-                return (<div>{number}</div>)
+                return (<div>{number}</div>);
             case 'action':
                 return (
                     <div>
@@ -20,26 +43,31 @@ const FacilityTableItem: React.FC<IFacilityTableItemProps> = ({facility, number,
                             style={{minWidth: "100px"}}
                             variant="contained"
                             color={"success"}
+                            onClick={handleOpenEditFacilityModalClick}
                         >
                             Edit
                         </Button>
+                        <FacilityForm 
+                            open={openEditFacilityModal} 
+                            handleClose={handleCloseEditFacilityModalClick} />
                         {' '}
                         <Button
                             style={{minWidth: "100px"}}
                             variant="contained"
                             color={"error"}
+                            onClick={handleOpenDeleteFacilityModalClick}
                         >
                             remove
                         </Button>
+                        <DeleteFacilityModal open={openDeleteFacilityModal} handleClose={handleCloseDeleteFacilityModalClick} />
                     </div>
-                )
-            // case 'organizationRole':
-            //     return facility[columnId].name
-            // case 'facility':
-            //     return facility[columnId]?.id || 'not assign'
+                );
+            case 'address':
+                return facility[columnId].streetName;
+            case 'isActive':
+                return facility[columnId] ? 'Active' : 'Inactive';
             default:
-                return 'something'
-            // return representative[columnId]
+                return facility[columnId];
         }
     }
 
