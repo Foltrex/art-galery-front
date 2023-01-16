@@ -1,4 +1,4 @@
-import {ART_SERVICE, axiosApi} from "../http/axios";
+import {ART_SERVICE, axiosApi, USER_SERVICE} from "../http/axios";
 import {Representative} from "../entities/representative";
 
 interface TPageableResponse {
@@ -24,6 +24,10 @@ export class RepresentativeApi {
                 size: size,
             }
         }).then(response => response.data)
+    }
+
+    static test2() {
+        return axiosApi.post<string>(`${ART_SERVICE}/representatives/post`)
     }
 
 }

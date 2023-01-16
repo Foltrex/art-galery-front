@@ -1,6 +1,8 @@
 import axios from "axios";
 
 export const ART_SERVICE = "art-service"
+export const USER_SERVICE = "user-service"
+export const FILE_SERVICE = "file-service"
 
 export let axiosApi = axios.create({baseURL: `http://localhost:8080/`})
 
