@@ -71,6 +71,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
             },
         }
     }
+    
     await FacilityService.getAllFacilities(Number(context.query.page), Number(context.query.limit));
 
     return {
