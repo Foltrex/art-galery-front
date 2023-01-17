@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Box, Button, Paper, Typography} from "@mui/material";
 import {observer} from "mobx-react-lite";
 import {RepresentativeService} from "../../services/RepresentativeService";
@@ -16,7 +16,7 @@ export interface TRepresentativePageProps {
     totalElements: number,
 }
 
-const Index: NextPage<TRepresentativePageProps> = observer((props) => {
+const Index: NextPage<TRepresentativePageProps> = observer(({representatives = [], pageNumber, pageSize, totalElements}) => {
     const [open, setOpen] = useState(false);
 
     const handleOpenClick = () => {
@@ -37,14 +37,14 @@ const Index: NextPage<TRepresentativePageProps> = observer((props) => {
                     <RepresentativeForm open={open} handleClose={handleClose}/>
                 </Box>
                 <RepresentativeTablePagination
-                    pageNumber={props.pageNumber}
-                    pageSize={props.pageSize}
-                    totalElements={props.totalElements}
+                    pageNumber={pageNumber}
+                    pageSize={pageSize}
+                    totalElements={totalElements}
                 />
-                <RepresentativeTable representatives={props.representatives}
-                                     pageNumber={props.pageNumber}
-                                     pageSize={props.pageSize}
-                                     totalElements={props.totalElements}
+                <RepresentativeTable representatives={representatives}
+                                     pageNumber={pageNumber}
+                                     pageSize={pageSize}
+                                     totalElements={totalElements}
                 />
             </Paper>
         </div>
@@ -62,6 +62,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
             },
         }
     }
+    
     await RepresentativeService.getAllRepresentative(Number(context.query.page), Number(context.query.limit));
 
     return {
