@@ -1,4 +1,5 @@
 import {FacilityApi} from "../api/FacilityApi";
+import { Facility } from "../entities/facility";
 import facilityStore from "../stores/facilityStore"
 
 
@@ -7,7 +8,7 @@ export class FacilityService {
     static async getAllFacilities(page: number, size: number) {
         await FacilityApi.getAllFacilities(page, size)
             .then(response => {
-                console.log(response)
+                console.log(response.data)
                 facilityStore.setPageNumber(response.data.pageable.pageNumber);
                 facilityStore.setPageSize(response.data.pageable.pageSize);
                 facilityStore.setTotalElements(response.data.totalElements);
@@ -19,16 +20,10 @@ export class FacilityService {
             })
     }
 
-    static async getFacilityById(id: number) {
-        try {
-          await FacilityApi.getFacilityById(id)
-            .then(response => {
-                console.log(response.data);
-                
-                // facilityStore.setFacility(response.data.facility)
-            });
-        } catch (error) {
-            console.log(error);
-        }
+    static async save(facility: Facility) {
+        await FacilityApi.save(facility)
+            .catch(error => {
+                console.log(error);
+            })
     }
 }
