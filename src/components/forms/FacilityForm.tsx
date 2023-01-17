@@ -1,9 +1,19 @@
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Grid, Divider } from '@mui/material';
+import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import React from 'react';
 import { Facility } from '../../entities/facility';
-import styles from './FaiclityForm.module.css';
+
+
+const useStyles = makeStyles({
+    input: {
+        '&:invalid': {
+            // border: '1px solid red'
+            borderBottom: '2px solid red'
+        }
+    }
+})
 
 interface FacilityFormProps {
     open: boolean
@@ -12,8 +22,19 @@ interface FacilityFormProps {
 }
 
 const FacilityForm = ({open, handleClose, facility } : FacilityFormProps) => {
-    console.log(facility);
+    const classes = useStyles();
     
+    let address: String = '';
+    if (facility && facility.address) {
+        const { city, streetName, streetNumber } = facility.address;
+        address = [city.name, streetName, streetNumber].join(', ');
+    }
+
+    let organizaiton: String = '';
+    if (facility && facility.organization) {
+        organizaiton = facility.organization.name;
+    }
+
     return (
       <Dialog open={open} onClose={handleClose} maxWidth='xs'>
         <DialogTitle>Create facility</DialogTitle>
@@ -29,7 +50,7 @@ const FacilityForm = ({open, handleClose, facility } : FacilityFormProps) => {
                         fullWidth
                         required
                         variant="standard"
-                        value={facility && facility.name}
+                        defaultValue={facility && facility.name}
                     />
                 </Grid>
                 <Grid item xs={12}>
@@ -39,19 +60,21 @@ const FacilityForm = ({open, handleClose, facility } : FacilityFormProps) => {
                         variant='standard'
                         type='name'
                         required
-                        value={facility && facility.isActive ? 'Active' : 'Inactive'}
+                        defaultValue={facility && facility.isActive ? 'Active' : 'Inactive'}
                     />
                 </Grid>
                 <Grid item xs={12}>
-                    {/* <TextField 
+                    <TextField 
                         id='address'
                         label='Address'
                         fullWidth
                         variant='standard'
-                        type='name'
+                        type='text'
+                        inputProps={{ className: classes.input, pattern: /[A-Za-zА-Яа-я\s\.\-]+,\s*[A-Za-zА-Яа-я\s\.\-]+,\s*\w+/ }}
+                        placeholder='City, Street Name, Street Number'
                         required
-                        value={facility && facility.address}
-                    /> */}
+                        defaultValue={address}
+                    />
                 </Grid>
                 <Grid item xs={12}>
                     <TextField 
@@ -61,7 +84,7 @@ const FacilityForm = ({open, handleClose, facility } : FacilityFormProps) => {
                         variant='standard'
                         type='name'
                         required
-                        value={facility && facility.organization}
+                        defaultValue={organizaiton}
                     />
                 </Grid>
             </Grid>

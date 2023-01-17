@@ -33,6 +33,8 @@ const FacilityTableItem: React.FC<IFacilityTableItemProps> = ({facility, number,
     }
 
     const displayData = (columnId: string, number: number, facility: any) => {
+        console.log(facility)
+
         switch (columnId) {
             case 'number':
                 return (<div>{number}</div>);
@@ -42,7 +44,6 @@ const FacilityTableItem: React.FC<IFacilityTableItemProps> = ({facility, number,
                         <Button
                             style={{minWidth: "100px"}}
                             variant="contained"
-                            color={"success"}
                             onClick={handleOpenEditFacilityModalClick}
                         >
                             Edit
@@ -55,7 +56,6 @@ const FacilityTableItem: React.FC<IFacilityTableItemProps> = ({facility, number,
                         <Button
                             style={{minWidth: "100px"}}
                             variant="contained"
-                            color={"error"}
                             onClick={handleOpenDeleteFacilityModalClick}
                         >
                             remove
@@ -65,6 +65,8 @@ const FacilityTableItem: React.FC<IFacilityTableItemProps> = ({facility, number,
                 );
             case 'address':
                 return facility.address.streetName;
+            case 'organization':
+                return facility.organization.name;
             case 'isActive':
                 return facility[columnId] ? 'Active' : 'Inactive';
             default:
