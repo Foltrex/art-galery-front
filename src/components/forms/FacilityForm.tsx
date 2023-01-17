@@ -2,14 +2,18 @@ import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, B
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import React from 'react';
+import { Facility } from '../../entities/facility';
 import styles from './FaiclityForm.module.css';
 
 interface FacilityFormProps {
     open: boolean
     handleClose: () => void
+    facility?: Facility
 }
 
-const FacilityForm = ({open, handleClose} : FacilityFormProps) => {
+const FacilityForm = ({open, handleClose, facility } : FacilityFormProps) => {
+    console.log(facility);
+    
     return (
       <Dialog open={open} onClose={handleClose} maxWidth='xs'>
         <DialogTitle>Create facility</DialogTitle>
@@ -25,6 +29,7 @@ const FacilityForm = ({open, handleClose} : FacilityFormProps) => {
                         fullWidth
                         required
                         variant="standard"
+                        value={facility && facility.name}
                     />
                 </Grid>
                 <Grid item xs={12}>
@@ -34,17 +39,19 @@ const FacilityForm = ({open, handleClose} : FacilityFormProps) => {
                         variant='standard'
                         type='name'
                         required
+                        value={facility && facility.isActive ? 'Active' : 'Inactive'}
                     />
                 </Grid>
                 <Grid item xs={12}>
-                    <TextField 
+                    {/* <TextField 
                         id='address'
                         label='Address'
                         fullWidth
                         variant='standard'
                         type='name'
                         required
-                    />
+                        value={facility && facility.address}
+                    /> */}
                 </Grid>
                 <Grid item xs={12}>
                     <TextField 
@@ -54,13 +61,14 @@ const FacilityForm = ({open, handleClose} : FacilityFormProps) => {
                         variant='standard'
                         type='name'
                         required
+                        value={facility && facility.organization}
                     />
                 </Grid>
             </Grid>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color='error' variant='contained'>Cancel</Button>
-          <Button onClick={handleClose} variant='contained'>Create</Button>
+          <Button onClick={handleClose} variant='text'>Cancel</Button>
+          <Button onClick={handleClose} variant='contained'>Save</Button>
         </DialogActions>
       </Dialog>
     );

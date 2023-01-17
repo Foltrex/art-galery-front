@@ -1,4 +1,4 @@
-import { Dialog, DialogTitle, DialogContent, DialogContentText, Button, DialogActions } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, DialogContentText, Button, DialogActions, Divider } from '@mui/material';
 import * as React from 'react';
 
 interface IDeleteFacilityModal {
@@ -18,6 +18,7 @@ const DeleteFacilityModal: React.FC<IDeleteFacilityModal> = ({open, handleClose}
             <DialogTitle>
                 Are you sure?
             </DialogTitle>
+            <Divider />
             <DialogContent>
                 <DialogContentText>
                     Do you really want to delete this record? This action cannot be undone.
@@ -25,7 +26,7 @@ const DeleteFacilityModal: React.FC<IDeleteFacilityModal> = ({open, handleClose}
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose}>Cancel</Button>
-                <Button onClick={handleDeleteFacilityClick}>Delete</Button>
+                <Button onClick={handleDeleteFacilityClick} variant='contained'>Delete</Button>
             </DialogActions>
         </Dialog>
     );

@@ -44,7 +44,7 @@ const Index: NextPage<TFacilityPageProps> = observer(({facilities = [], pageNumb
                 >
                     Create facility
                 </Button>
-                <FacilityForm open={open} handleClose={handleClose}/>
+                <FacilityForm open={open} handleClose={handleClose} />
             </Box>
             <Paper sx={{width: '100%', overflow: 'hidden'}} style={{marginTop: "1%"}}>
                 <FacilityTablePagination

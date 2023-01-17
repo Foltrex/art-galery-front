@@ -18,4 +18,17 @@ export class FacilityService {
 
             })
     }
+
+    static async getFacilityById(id: number) {
+        try {
+          await FacilityApi.getFacilityById(id)
+            .then(response => {
+                console.log(response.data);
+                
+                // facilityStore.setFacility(response.data.facility)
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }

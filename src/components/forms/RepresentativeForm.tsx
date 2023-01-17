@@ -59,8 +59,8 @@ const RepresentativeForm = ({open, handleClose} : RepresentativeFormProps) => {
             </Grid>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color='error' variant='contained'>Cancel</Button>
-          <Button onClick={handleClose} variant='contained'>Create</Button>
+          <Button onClick={handleClose} variant='text'>Cancel</Button>
+          <Button onClick={handleClose} variant='contained'>Save</Button>
         </DialogActions>
       </Dialog>
     );

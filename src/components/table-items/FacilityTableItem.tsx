@@ -49,7 +49,8 @@ const FacilityTableItem: React.FC<IFacilityTableItemProps> = ({facility, number,
                         </Button>
                         <FacilityForm 
                             open={openEditFacilityModal} 
-                            handleClose={handleCloseEditFacilityModalClick} />
+                            handleClose={handleCloseEditFacilityModalClick} 
+                            facility={facility}/>
                         {' '}
                         <Button
                             style={{minWidth: "100px"}}
@@ -63,7 +64,7 @@ const FacilityTableItem: React.FC<IFacilityTableItemProps> = ({facility, number,
                     </div>
                 );
             case 'address':
-                return facility[columnId].streetName;
+                return facility.address.streetName;
             case 'isActive':
                 return facility[columnId] ? 'Active' : 'Inactive';
             default:
