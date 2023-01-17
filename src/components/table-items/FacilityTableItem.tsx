@@ -64,7 +64,7 @@ const FacilityTableItem: React.FC<IFacilityTableItemProps> = ({facility, number,
                     </div>
                 );
             case 'address':
-                return facility.address.streetName;
+                return facility.address?.streetName;
             case 'isActive':
                 return facility[columnId] ? 'Active' : 'Inactive';
             default:
