@@ -82,15 +82,6 @@ const FacilityForm = ({open, handleClose, facility } : IFacilityFormProps) => {
                         } 
                         label="Active"
                         sx={{ mt: 1 }} />
-                    {/* <TextField 
-                        name='activity'
-                        onChange={handleChange}
-                        fullWidth
-                        variant='standard'
-                        type='name'
-                        required
-                        defaultValue={facility && facility.isActive}
-                    /> */}
                 </Grid>
                 <Grid item xs={12}>
                     <TextField 
