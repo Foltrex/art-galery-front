@@ -5,12 +5,12 @@ import TextField from '@mui/material/TextField';
 import React, { useEffect, useState } from 'react';
 import { Facility } from '../../entities/facility';
 import { FacilityService } from '../../services/FacilityService';
+import { observer } from 'mobx-react';
 
 
 const useStyles = makeStyles({
     input: {
         '&:invalid': {
-            // border: '1px solid red'
             borderBottom: '2px solid red'
         }
     }
@@ -19,10 +19,10 @@ const useStyles = makeStyles({
 interface IFacilityFormProps {
     open: boolean;
     handleClose: () => void;
-    facility?: Facility;
+    facility: Facility;
 }
 
-const FacilityForm = ({open, handleClose, facility } : IFacilityFormProps) => {
+const FacilityForm = observer(({open, handleClose, facility } : IFacilityFormProps) => {
     const classes = useStyles();
     const [facilityObj, setFacility] = useState({});
 
@@ -44,12 +44,7 @@ const FacilityForm = ({open, handleClose, facility } : IFacilityFormProps) => {
     let address: String = '';
     if (facility && facility.address) {
         const { city, streetName, streetNumber } = facility.address;
-        address = [city.name, streetName, streetNumber].join(', ');
-    }
-
-    let organizaiton: String = '';
-    if (facility && facility.organization) {
-        organizaiton = facility.organization.name;
+        address = [city?.name, streetName, streetNumber].join(', ');
     }
 
     return (
@@ -69,7 +64,7 @@ const FacilityForm = ({open, handleClose, facility } : IFacilityFormProps) => {
                         fullWidth
                         required
                         variant="standard"
-                        defaultValue={facility && facility.name}
+                        defaultValue={facility?.name}
                     />
                 </Grid>
                 <Grid item xs={12}>
@@ -78,7 +73,7 @@ const FacilityForm = ({open, handleClose, facility } : IFacilityFormProps) => {
                             <Switch 
                                 name='activity'
                                 onChange={handleChange} 
-                                checked={facility && facility.isActive} />
+                                checked={facility?.isActive} />
                         } 
                         label="Active"
                         sx={{ mt: 1 }} />
@@ -108,7 +103,7 @@ const FacilityForm = ({open, handleClose, facility } : IFacilityFormProps) => {
                         variant='standard'
                         type='name'
                         required
-                        defaultValue={organizaiton}
+                        defaultValue={facility?.organization?.name}
                     />
                 </Grid>
             </Grid>
@@ -119,6 +114,6 @@ const FacilityForm = ({open, handleClose, facility } : IFacilityFormProps) => {
         </DialogActions>
       </Dialog>
     );
-};
+});
 
 export default FacilityForm;

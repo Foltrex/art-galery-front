@@ -32,6 +32,15 @@ class FacilityStore {
     setPageNumber(pageNumber: number) {
         this.pageNumber = pageNumber;
     }
+
+    // TODO: unocomment latter
+    // createFacility(facility: Facility) {
+
+    // }
+
+    deleteById(id: string) {
+        this.facilities = this.facilities.filter(facility => facility.id !== id)
+    }
 }
 
 export default new FacilityStore();

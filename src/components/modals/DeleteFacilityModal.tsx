@@ -1,15 +1,19 @@
 import { Dialog, DialogTitle, DialogContent, DialogContentText, Button, DialogActions, Divider } from '@mui/material';
+import { observer } from 'mobx-react';
 import * as React from 'react';
+import { Facility } from '../../entities/facility';
+import { FacilityService } from '../../services/FacilityService';
+import { RepresentativeService } from '../../services/RepresentativeService';
 
 interface IDeleteFacilityModal {
-    open: boolean
-    handleClose: () => void
+    open: boolean;
+    handleClose: () => void;
+    facility: Facility;
 }
 
-const DeleteFacilityModal: React.FC<IDeleteFacilityModal> = ({open, handleClose}) => {
-
-    const handleDeleteFacilityClick = () => {
-        // send delete request
+const DeleteFacilityModal: React.FC<IDeleteFacilityModal> = observer(({open, handleClose, facility}) => {
+    const handleDeleteFacilityClick = async () => {
+        await FacilityService.deleteById(facility.id)
         handleClose();
     }
     
@@ -30,6 +34,6 @@ const DeleteFacilityModal: React.FC<IDeleteFacilityModal> = ({open, handleClose}
             </DialogActions>
         </Dialog>
     );
-};
+});
 
 export default DeleteFacilityModal;

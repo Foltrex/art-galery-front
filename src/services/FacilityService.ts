@@ -14,16 +14,20 @@ export class FacilityService {
                 facilityStore.setTotalElements(response.data.totalElements);
                 facilityStore.setFacilities(response.data.content);
             })
-            .catch(error => {
-                console.log(error);
-
-            })
+            .catch(error => console.log(error))
     }
 
     static async save(facility: Facility) {
         await FacilityApi.save(facility)
-            .catch(error => {
-                console.log(error);
+            .then(response => {
+
             })
+            .catch(error => console.log(error));
+    }
+
+    static async deleteById(id: string) {
+        await FacilityApi.deleteById(id)
+            .then(() => facilityStore.deleteById(id))
+            .catch(error => console.log(error));
     }
 }
