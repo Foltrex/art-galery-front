@@ -41,18 +41,18 @@ const SignIn = observer(() => {
         password: yup.string().required('Password cannot be empty').min(1)
     })
 
-    const login = (email: string, password: string) => {
-        AuthService.login(email, password)
-    }
-
     const SignInForm = () => {
         return (
             <Formik
                 validateOnChange={false}
                 validateOnBlur={true}
                 initialValues={initialValues}
-                onSubmit={(values) => login(values.email, values.password)}
                 validationSchema={validationSchema}
+                onSubmit={async (values, {setSubmitting}) => {
+                    setSubmitting(true)
+                    await AuthService.login(values.email, values.password)
+                    setSubmitting(false)
+                }}
             >
                 {formik => (
                     <Form noValidate>
@@ -70,11 +70,9 @@ const SignIn = observer(() => {
                             margin="normal"
                             required
                             fullWidth
-                            name="password"
                             label="Password"
                             type="password"
                             id="password"
-                            autoComplete="current-password"
                             defaultValue={formik.values.password}
                             onChange={(event) => formik.setFieldValue('password', event.target.value)}
                             error={!!formik.errors.password} helperText={formik.errors.password}
@@ -87,9 +85,10 @@ const SignIn = observer(() => {
                             type="submit"
                             fullWidth
                             variant="contained"
+                            disabled={formik.isSubmitting}
                             sx={{mt: 3, mb: 2}}
                         >
-                            Sign In
+                            {formik.isSubmitting ? "Loading..." : "Sign In"}
                         </Button>
                         <Grid container>
                             <Grid item xs>

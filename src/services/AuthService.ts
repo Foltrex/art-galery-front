@@ -2,7 +2,7 @@ import {AuthApi} from "../api/AuthApi";
 import {AccountType} from "../entities/enums/AccountType";
 import Router from 'next/router'
 import alertStore from "../stores/alertStore";
-import {Cookies} from "react-cookie"
+import {TokenService} from "./TokenService";
 
 export class AuthService {
 
@@ -19,16 +19,17 @@ export class AuthService {
             })
     }
 
-    static login(email: string, password: string) {
-        AuthApi.login(email, password)
-            .then(async response => {
+    static async login(email: string, password: string) {
+        await AuthApi.login(email, password)
+            .then(response => {
                 console.log(response.data.id)
                 console.log(response.data.token)
-                await Router.push("/")
+                console.log(TokenService.decode(response.data.token))
+                Router.push("/")
             })
-            .catch(async error => {
+            .catch(error => {
                 console.log("Error to login: ", error)
-                await alertStore.setShow(true, "error", "Login error", error.response.data.message)
+                alertStore.setShow(true, "error", "Login error", error.response.data.message)
             })
     }
 }
