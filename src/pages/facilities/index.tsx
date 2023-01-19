@@ -10,7 +10,7 @@ import {FacilityService} from '../../services/FacilityService';
 import FacilityTablePagination from "../../components/table-paginations/FacilityTablePagination";
 import { OrganizationService } from '../../services/OrganizationService';
 import { Organization } from '../../entities/organization';
-import { useRootStore } from '../rootStoreAdapter';
+import rootStore from '../../stores/rootStore';
 
 export interface TFacilityPageProps {
     facilities: Facility[],
@@ -87,10 +87,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         }
     }
     
-    await FacilityService.getAllFacilities(Number(context.query.page), Number(context.query.limit));
+    await FacilityService.getAllFacilitiesPage(Number(context.query.page), Number(context.query.limit));
     await OrganizationService.getAllOrganizations();
     
-    const { facilityStore, organizationStore } = useRootStore();
+    const { facilityStore, organizationStore } = rootStore;
     return {
         props: {
             facilities: facilityStore.facilities,

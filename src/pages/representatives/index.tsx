@@ -6,17 +6,21 @@ import {GetServerSideProps, NextPage} from "next";
 import {Representative} from "../../entities/representative";
 import RepresentativeTable from "../../components/tables/RepresentativeTable";
 import RepresentativeForm from '../../components/forms/RepresentativeForm';
-import representativeStore from "../../stores/representativeStore";
 import RepresentativeTablePagination from "../../components/table-paginations/RepresentativeTablePagination";
+import rootStore from '../../stores/rootStore';
+import { FacilityStore } from '../../stores/facilityStore';
+import { FacilityService } from '../../services/FacilityService';
+import { Facility } from '../../entities/facility';
 
 export interface TRepresentativePageProps {
     representatives: Representative[],
     pageNumber: number,
     pageSize: number,
     totalElements: number,
+    facilities: Facility[]
 }
 
-const Index: NextPage<TRepresentativePageProps> = observer(({representatives = [], pageNumber, pageSize, totalElements}) => {
+const Index: NextPage<TRepresentativePageProps> = observer(({representatives = [], pageNumber, pageSize, totalElements, facilities}) => {
     const [open, setOpen] = useState(false);
 
     const handleOpenClick = () => {
@@ -45,6 +49,7 @@ const Index: NextPage<TRepresentativePageProps> = observer(({representatives = [
                                      pageNumber={pageNumber}
                                      pageSize={pageSize}
                                      totalElements={totalElements}
+                                     facilities={facilities}
                 />
             </Paper>
         </div>
@@ -64,9 +69,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
     
     await RepresentativeService.getAllRepresentative(Number(context.query.page), Number(context.query.limit));
+    await FacilityService.getAllFacilities();
 
+    const { representativeStore, facilityStore } = rootStore;
+    
     return {
         props: {
+            facilities: facilityStore.facilities,
             representatives: representativeStore.representatives,
             pageNumber: representativeStore.pageNumber,
             pageSize: representativeStore.pageSize,

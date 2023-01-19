@@ -1,14 +1,23 @@
 import {FacilityApi} from "../api/FacilityApi";
 import { Facility } from "../entities/facility";
-import facilityStore from "../stores/facilityStore"
+import rootStore from "../stores/rootStore";
 
 
 export class FacilityService {
+    
+    static async getAllFacilities() {
+        const { facilityStore } = rootStore;
 
-    static async getAllFacilities(page: number, size: number) {
-        await FacilityApi.getAllFacilities(page, size)
+        await FacilityApi.getAllFacilities()
+            .then(response => facilityStore.setFacilities(response.data))
+            .catch(error => console.log(error));
+    }
+
+    static async getAllFacilitiesPage(page: number, size: number) {
+        const { facilityStore } = rootStore;
+
+        await FacilityApi.getAllFacilitiesPage(page, size)
             .then(response => {
-                console.log(response.data)
                 facilityStore.setPageNumber(response.data.pageable.pageNumber);
                 facilityStore.setPageSize(response.data.pageable.pageSize);
                 facilityStore.setTotalElements(response.data.totalElements);
@@ -26,6 +35,8 @@ export class FacilityService {
     }
 
     static async deleteById(id: string) {
+        const { facilityStore } = rootStore;
+
         await FacilityApi.deleteById(id)
             .then(() => facilityStore.deleteById(id))
             .catch(error => console.log(error));
