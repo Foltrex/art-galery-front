@@ -1,6 +1,6 @@
-import {OrganizationRoleType} from "./enums/organizationRoleType";
+import {OrganizationRoleEnum} from "./enums/organizationRoleEnum";
 
 export interface OrganizationRole {
     id: number,
-    name: OrganizationRoleType,
+    name: OrganizationRoleEnum,
 }
