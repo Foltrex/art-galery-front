@@ -7,7 +7,7 @@ import { observer } from 'mobx-react';
 import { useRouter } from 'next/router';
 import { Facility } from '../../entities/facility';
 
-const FacilityTable: React.FC<TFacilityPageProps> = observer(({facilities, pageNumber, pageSize}) => {
+const FacilityTable: React.FC<TFacilityPageProps> = observer(({facilities, pageNumber, pageSize, organizations}) => {
     
     const columns = [
         {id: 'number', label: '#', minWidth: 5, align: "center"},
@@ -106,7 +106,8 @@ const FacilityTable: React.FC<TFacilityPageProps> = observer(({facilities, pageN
                     <FacilityForm 
                         open={openEditFacilityModal} 
                         handleClose={handleCloseEditFacilityModalClick} 
-                        facility={currentFacility!}/>
+                        facility={currentFacility!}
+                        organizations={organizations}/>
                     <DeleteFacilityModal 
                         open={openDeleteFacilityModal} 
                         handleClose={handleCloseDeleteFacilityModalClick}

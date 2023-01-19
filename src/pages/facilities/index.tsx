@@ -9,15 +9,25 @@ import {Facility} from "../../entities/facility";
 import {FacilityService} from '../../services/FacilityService';
 import facilityStore from '../../stores/facilityStore';
 import FacilityTablePagination from "../../components/table-paginations/FacilityTablePagination";
+import { OrganizationService } from '../../services/OrganizationService';
+import organizationStore from '../../stores/organizationStore';
+import { Organization } from '../../entities/organization';
 
 export interface TFacilityPageProps {
     facilities: Facility[],
     pageNumber: number,
     pageSize: number,
     totalElements: number,
+    organizations: Organization[]
 }
 
-const Index: NextPage<TFacilityPageProps> = observer(({facilities = [], pageNumber, pageSize, totalElements}) => {
+const Index: NextPage<TFacilityPageProps> = observer(({
+    facilities = [], 
+    pageNumber, 
+    pageSize, 
+    totalElements,
+    organizations
+}) => {
     const [open, setOpen] = useState(false);
 
     const handleClickOpen = () => {
@@ -44,7 +54,12 @@ const Index: NextPage<TFacilityPageProps> = observer(({facilities = [], pageNumb
                 >
                     Create facility
                 </Button>
-                <FacilityForm open={open} handleClose={handleClose} facility={{} as Facility} />
+                <FacilityForm 
+                    open={open} 
+                    handleClose={handleClose} 
+                    facility={{} as Facility} 
+                    organizations={organizations} 
+                />
             </Box>
             <Paper sx={{width: '100%', overflow: 'hidden'}} style={{marginTop: "1%"}}>
                 <FacilityTablePagination
@@ -56,7 +71,8 @@ const Index: NextPage<TFacilityPageProps> = observer(({facilities = [], pageNumb
                     facilities={facilities}
                     pageNumber={pageNumber}
                     pageSize={pageSize}
-                    totalElements={totalElements}/>
+                    totalElements={totalElements}
+                    organizations={organizations}/>
             </Paper>
         </div>
     );
@@ -73,13 +89,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
     
     await FacilityService.getAllFacilities(Number(context.query.page), Number(context.query.limit));
-
+    await OrganizationService.getAllOrganizations();
+    
     return {
         props: {
             facilities: facilityStore.facilities,
             pageNumber: facilityStore.pageNumber,
             pageSize: facilityStore.pageSize,
-            totalElements: facilityStore.totalElements
+            totalElements: facilityStore.totalElements,
+            // organizations: organizationStore.organizations
         },
     };
 }
