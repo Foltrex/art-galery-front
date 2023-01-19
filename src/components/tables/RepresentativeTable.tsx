@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
+import { Button } from '@mui/material';
 import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import TableCell from "@mui/material/TableCell";
-import TableBody from "@mui/material/TableBody";
-import TableContainer from "@mui/material/TableContainer";
-import {TRepresentativePageProps} from "../../pages/representatives";
-import DeleteRepresentativeModal from '../modals/DeleteRepresentativeModal';
-import { Button } from '@mui/material';
+import { useRouter } from 'next/router';
+import React, { useState } from 'react';
+import { Representative } from '../../entities/representative';
+import { TRepresentativePageProps } from "../../pages/representatives";
+import { RepresentativeService } from '../../services/RepresentativeService';
 import RepresentativeForm from '../forms/RepresentativeForm';
+import DeleteModal from '../modals/DeleteModal';
 
 const RepresentativeTable: React.FC<TRepresentativePageProps> = ({
     representatives, 
@@ -28,9 +31,33 @@ const RepresentativeTable: React.FC<TRepresentativePageProps> = ({
         {id: 'action', label: 'Action', minWidth: 150, align: "center"}
     ];
 
+    
+    const router = useRouter();
+
+    const [currentRepresentative, setCurrentRepresentative] = useState<Representative>();
 
     const [openEditRepresentativeModal, setOpenEditRepresentativeModal] = useState(false);
     const [openDeleteRepresentativeModal, setOpenDeleteRepresentativeModal] = useState(false);
+    
+    const handleOpenEditRepresentativeModalClick = (representative: Representative) => {
+        setCurrentRepresentative(representative);
+        setOpenEditRepresentativeModal(true);
+    }
+
+    const handleCloseEditRepresentativeModalClick = () => {
+        setOpenEditRepresentativeModal(false);
+        router.replace(router.asPath);
+    }
+
+    const handleOpenDeleteRepresentativeModalClick = (representative: Representative) => {
+        setCurrentRepresentative(representative);
+        setOpenDeleteRepresentativeModal(true);
+    }
+
+    const handleCloseDeleteRepresentativeModalClick = () => {
+        setOpenDeleteRepresentativeModal(false);
+        router.replace(router.asPath);
+    }
 
     return (
         <TableContainer>
@@ -65,31 +92,32 @@ const RepresentativeTable: React.FC<TRepresentativePageProps> = ({
                                             style={{minWidth: "100px"}}
                                             variant="contained"
                                             color={"success"}
-                                            onClick={() => setOpenEditRepresentativeModal(true)}
+                                            onClick={() => handleOpenEditRepresentativeModalClick(representative)}
                                         >
                                             Edit
                                         </Button>
-                                        <RepresentativeForm 
-                                            open={openEditRepresentativeModal} 
-                                            handleClose={() => setOpenEditRepresentativeModal(false)}
-                                            representative={representative} />
-
                                         {' '}
                                         <Button
                                             style={{minWidth: "100px"}}
                                             variant="contained"
                                             color={"error"}
-                                            onClick={() => setOpenDeleteRepresentativeModal(true)}
+                                            onClick={() => handleOpenDeleteRepresentativeModalClick(representative)}
                                         >
                                             Remove
                                         </Button>
-                                        <DeleteRepresentativeModal 
-                                            open={openDeleteRepresentativeModal} 
-                                            handleClose={() => setOpenDeleteRepresentativeModal(false)} />
                                     </div>
                                 </TableCell>
                             </TableRow>
                     )})}
+                    <RepresentativeForm 
+                        open={openEditRepresentativeModal} 
+                        handleClose={handleCloseEditRepresentativeModalClick}
+                        representative={currentRepresentative} />
+                    <DeleteModal
+                        open={openDeleteRepresentativeModal}
+                        handleClose={handleCloseDeleteRepresentativeModalClick}
+                        id={currentRepresentative?.id!}
+                        deleteById={(id) => RepresentativeService.deleteById(id)} />
                 </TableBody>
             </Table>
         </TableContainer>

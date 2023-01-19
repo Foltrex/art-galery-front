@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-import {Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
-import { TFacilityPageProps } from '../../pages/facilities';
-import FacilityForm from '../forms/FacilityForm';
-import DeleteFacilityModal from '../modals/DeleteFacilityModal';
+import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { observer } from 'mobx-react';
 import { useRouter } from 'next/router';
+import React, { useState } from 'react';
 import { Facility } from '../../entities/facility';
+import { TFacilityPageProps } from '../../pages/facilities';
+import { FacilityService } from '../../services/FacilityService';
+import FacilityForm from '../forms/FacilityForm';
+import DeleteModal from '../modals/DeleteModal';
 
 const FacilityTable: React.FC<TFacilityPageProps> = observer(({facilities, pageNumber, pageSize, organizations}) => {
     
@@ -37,8 +38,6 @@ const FacilityTable: React.FC<TFacilityPageProps> = observer(({facilities, pageN
     }
 
     const handleOpenDeleteFacilityModalClick = (facility: Facility) => {
-        console.log(facility);
-        
         setCurrentFacility(facility);
         setOpenDeleteFacilityModal(true);
     }
@@ -108,10 +107,15 @@ const FacilityTable: React.FC<TFacilityPageProps> = observer(({facilities, pageN
                         handleClose={handleCloseEditFacilityModalClick} 
                         facility={currentFacility!}
                         organizations={organizations}/>
-                    <DeleteFacilityModal 
+                    {/* <DeleteFacilityModal 
                         open={openDeleteFacilityModal} 
                         handleClose={handleCloseDeleteFacilityModalClick}
-                        facility={currentFacility!} />
+                        facility={currentFacility!} /> */}
+                    <DeleteModal
+                        open={openDeleteFacilityModal}
+                        handleClose={handleCloseDeleteFacilityModalClick}
+                        id={currentFacility?.id!}
+                        deleteById={(id) => FacilityService.deleteById(id)} />
                 </TableBody>
             </Table>
         </TableContainer>);

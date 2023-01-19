@@ -1,15 +1,16 @@
 import { Dialog, DialogTitle, DialogContent, DialogContentText, Button, DialogActions, Divider } from '@mui/material';
-import * as React from 'react';
+import { observer } from 'mobx-react';
 
-interface IDeleteRepresentativeModal {
-    open: boolean
-    handleClose: () => void
+interface IDeleteModal {
+    open: boolean;
+    handleClose: () => void;
+    id: string;
+    deleteById: (id: string) => Promise<void>;
 }
 
-const DeleteRepresentativeModal: React.FC<IDeleteRepresentativeModal> = ({open, handleClose}) => {
-
-    const handleDeleteRepresentativeClick = () => {
-        // send delete request
+const DeleteModal: React.FC<IDeleteModal> = observer(({open, handleClose, id, deleteById}) => {
+    const handleDeleteClick = async () => {
+        await deleteById(id)
         handleClose();
     }
     
@@ -26,10 +27,10 @@ const DeleteRepresentativeModal: React.FC<IDeleteRepresentativeModal> = ({open, 
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose}>Cancel</Button>
-                <Button onClick={handleDeleteRepresentativeClick} variant='contained'>Delete</Button>
+                <Button onClick={handleDeleteClick} variant='contained'>Delete</Button>
             </DialogActions>
         </Dialog>
     );
-};
+});
 
-export default DeleteRepresentativeModal;
+export default DeleteModal;
