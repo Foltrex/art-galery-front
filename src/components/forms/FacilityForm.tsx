@@ -1,24 +1,32 @@
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Grid, Divider, Switch, FormControlLabel, FormControl, Select, InputLabel, SelectChangeEvent, MenuItem } from '@mui/material';
-import { makeStyles } from '@material-ui/core/styles';
+// import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
-import React, { useEffect, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import { Facility } from '../../entities/facility';
 import { FacilityService } from '../../services/FacilityService';
 import { observer } from 'mobx-react';
 import { GetServerSideProps } from 'next';
-import organizationStore from '../../stores/organizationStore';
+// import organizationStore from '../../stores/organizationStore';
 import { OrganizationService } from '../../services/OrganizationService';
 import { Organization } from '../../entities/organization';
+import styled from '@emotion/styled';
 
 
-const useStyles = makeStyles({
-    input: {
-        '&:invalid': {
-            borderBottom: '2px solid red'
-        }
+const StyledTextField = styled.div`
+    &:hover {
+        background-color: black
     }
-})
+`;
+
+// const useStyles = makeStyles({
+//     input: {
+//         '&:invalid': {
+//             borderBottom: '2px solid red'
+//         }
+//     }
+// })
+
 
 interface IFacilityFormProps {
     open: boolean;
@@ -28,7 +36,7 @@ interface IFacilityFormProps {
 }
 
 const FacilityForm = observer(({open, handleClose, facility, organizations } : IFacilityFormProps) => {
-    const classes = useStyles();
+    // const classes = useStyles();
     const [facilityObj, setFacility] = useState(facility);
 
     useEffect(() => setFacility(facility), [facility]);
@@ -90,19 +98,21 @@ const FacilityForm = observer(({open, handleClose, facility, organizations } : I
                         sx={{ mt: 1 }} />
                 </Grid>
                 <Grid item xs={12}>
-                    <TextField 
-                        id='address'
-                        label='Address'
-                        name='address'
-                        onChange={handleChange}
-                        fullWidth
-                        variant='standard'
-                        type='text'
-                        inputProps={{ className: classes.input, pattern: /[A-Za-zА-Яа-я\s\.\-]+,\s*[A-Za-zА-Яа-я\s\.\-]+,\s*\w+/ }}
-                        placeholder='City, Street Name, Street Number'
-                        required
-                        defaultValue={address}
-                    />
+                    <StyledTextField>
+                        <TextField 
+                            id='address'
+                            label='Address'
+                            name='address'
+                            onChange={handleChange}
+                            fullWidth
+                            variant='standard'
+                            type='text'
+                            // inputProps={{ className: classes.input, pattern: /[A-Za-zА-Яа-я\s\.\-]+,\s*[A-Za-zА-Яа-я\s\.\-]+,\s*\w+/ }}
+                            placeholder='City, Street Name, Street Number'
+                            required
+                            defaultValue={address}
+                        />
+                    </StyledTextField>
                 </Grid>
                 <Grid item xs={12}>
                     <TextField 
