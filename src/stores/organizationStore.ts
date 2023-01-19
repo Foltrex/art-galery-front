@@ -1,15 +1,11 @@
 import { makeAutoObservable } from "mobx";
 import { Organization } from "../entities/organization";
-import { RootStore } from "./rootStore";
 
 export class OrganizationStore {
-    rootStore: RootStore;
-
     organizations: Organization[] = [];
     organization?: Organization;
 
-    constructor(rootStore: RootStore) {
-        this.rootStore = rootStore;
+    constructor() {
         makeAutoObservable(this);
     }
 
@@ -21,3 +17,5 @@ export class OrganizationStore {
         this.organization = organization;
     }
 }
+
+export default new OrganizationStore();
