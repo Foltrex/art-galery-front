@@ -11,21 +11,7 @@ import { GetServerSideProps } from 'next';
 import { OrganizationService } from '../../services/OrganizationService';
 import { Organization } from '../../entities/organization';
 import styled from '@emotion/styled';
-
-
-const StyledTextField = styled.div`
-    &:hover {
-        background-color: black
-    }
-`;
-
-// const useStyles = makeStyles({
-//     input: {
-//         '&:invalid': {
-//             borderBottom: '2px solid red'
-//         }
-//     }
-// })
+import { BorderColor } from '@mui/icons-material';
 
 
 interface IFacilityFormProps {
@@ -51,6 +37,7 @@ const FacilityForm = observer(({open, handleClose, facility, organizations } : I
     }
 
     const handleSelectChange = (e: SelectChangeEvent<string>) => {
+        // TODO: add select changing
         console.log(e.target.value);
         
     }
@@ -98,36 +85,29 @@ const FacilityForm = observer(({open, handleClose, facility, organizations } : I
                         sx={{ mt: 1 }} />
                 </Grid>
                 <Grid item xs={12}>
-                    <StyledTextField>
-                        <TextField 
-                            id='address'
-                            label='Address'
-                            name='address'
-                            onChange={handleChange}
-                            fullWidth
-                            variant='standard'
-                            type='text'
-                            // inputProps={{ className: classes.input, pattern: /[A-Za-zА-Яа-я\s\.\-]+,\s*[A-Za-zА-Яа-я\s\.\-]+,\s*\w+/ }}
-                            placeholder='City, Street Name, Street Number'
-                            required
-                            defaultValue={address}
-                        />
-                    </StyledTextField>
-                </Grid>
-                <Grid item xs={12}>
                     <TextField 
-                        id='organizaiton'
+                        id='address'
+                        label='Address'
+                        name='address'
                         onChange={handleChange}
-                        name='organizaiton'
-                        label='Organization'
                         fullWidth
                         variant='standard'
-                        type='name'
+                        type='text'
+                        inputProps={{ pattern: /[A-Za-zА-Яа-я\s\.\-]+,\s*[A-Za-zА-Яа-я\s\.\-]+,\s*\w+/ }}
+                        placeholder='City, Street Name, Street Number'
                         required
-                        defaultValue={facility?.organization?.name}
+                        defaultValue={address}
+                        sx={{
+                            '& input:invalid': {
+                                borderBottom: 2,
+                                BorderColor: 'red'
+                            }
+                        }}
                     />
+                </Grid>
+                <Grid item xs={12}>
                     <FormControl fullWidth variant='standard'>
-                        <InputLabel id="organizaiton-label">Facility</InputLabel>
+                        <InputLabel id="organizaiton-label">Organization</InputLabel>
                         <Select
                             labelId="organizaiton-label"
                             id='organizaiton'

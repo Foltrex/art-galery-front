@@ -1,12 +1,13 @@
 import { OrganizationApi } from "../api/OrganizationApi";
-import organizationStore from "../stores/organizationStore";
+import rootStore from "../stores/rootStore";
 
 export class OrganizationService {
     static async getAllOrganizations() {
+        const { organizationStore } = rootStore;
+        
         await OrganizationApi.getAllOrganizations()
             .then(response => {
-                console.log(response.data);
-                organizationStore.setOrganizaitons(response.data.organizations)
+                organizationStore.setOrganizaitons(response.data)
             })
             .catch(error => console.log(error));
     }
