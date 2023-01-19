@@ -1,18 +1,14 @@
 import {makeAutoObservable} from "mobx";
 import { Facility } from "../entities/facility";
-import { RootStore } from "./rootStore";
 
 export class FacilityStore {
-    rootStore: RootStore;
-
     facilities: Facility[] = [];
     facility?: Facility;
     totalElements = 0;
     pageSize = 10;
     pageNumber = 0;
 
-    constructor(rootStore: RootStore) {
-        this.rootStore = rootStore;
+    constructor() {
         makeAutoObservable(this);
     }
 
@@ -45,3 +41,5 @@ export class FacilityStore {
         this.facilities = this.facilities.filter(facility => facility.id !== id)
     }
 }
+
+export default new FacilityStore();
