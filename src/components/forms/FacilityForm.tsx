@@ -1,17 +1,9 @@
-import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Grid, Divider, Switch, FormControlLabel, FormControl, Select, InputLabel, SelectChangeEvent, MenuItem } from '@mui/material';
-// import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@mui/material/Paper';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, FormControl, FormControlLabel, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, Switch } from '@mui/material';
 import TextField from '@mui/material/TextField';
-import React, { createContext, useEffect, useState } from 'react';
-import { Facility } from '../../entities/facility';
-import { FacilityService } from '../../services/FacilityService';
 import { observer } from 'mobx-react';
-import { GetServerSideProps } from 'next';
-// import organizationStore from '../../stores/organizationStore';
-import { OrganizationService } from '../../services/OrganizationService';
+import React, { useEffect, useState } from 'react';
+import { Facility } from '../../entities/facility';
 import { Organization } from '../../entities/organization';
-import styled from '@emotion/styled';
-import { BorderColor } from '@mui/icons-material';
 
 
 interface IFacilityFormProps {
@@ -22,7 +14,6 @@ interface IFacilityFormProps {
 }
 
 const FacilityForm = observer(({open, handleClose, facility, organizations } : IFacilityFormProps) => {
-    // const classes = useStyles();
     const [facilityObj, setFacility] = useState(facility);
 
     useEffect(() => setFacility(facility), [facility]);
@@ -37,8 +28,15 @@ const FacilityForm = observer(({open, handleClose, facility, organizations } : I
     }
 
     const handleSelectChange = (e: SelectChangeEvent<string>) => {
-        // TODO: add select changing
-        console.log(e.target.value);
+        const { name, value } = e.target;
+        if (name === 'organizaiton') {
+            const index = organizations
+                .map(organization => organization.id)
+                .indexOf(value);
+
+            setFacility({...facilityObj, organization: organizations[index] })
+        }
+        console.log(facilityObj);
         
     }
 
@@ -55,7 +53,9 @@ const FacilityForm = observer(({open, handleClose, facility, organizations } : I
 
     return (
       <Dialog open={open} onClose={handleClose} maxWidth='xs'>
-        <DialogTitle>{facility ? 'Edit' : 'Create'} Facility</DialogTitle>
+        <DialogTitle>
+            {facility && Object.keys(facility).length !== 0 ? 'Edit' : 'Create'} Facility
+        </DialogTitle>
         <Divider />
         <DialogContent>
             <Grid container rowSpacing='3'>
@@ -119,9 +119,10 @@ const FacilityForm = observer(({open, handleClose, facility, organizations } : I
                         >
                             {organizations?.map(organization => {
                                 return (
-                                <MenuItem value={organization.id} id={organization.id}>
-                                    {organization.name}
-                                </MenuItem>)
+                                    <MenuItem value={organization.id} id={organization.id}>
+                                        {organization.name}
+                                    </MenuItem>
+                                );
                             })}
                         </Select>
                     </FormControl>

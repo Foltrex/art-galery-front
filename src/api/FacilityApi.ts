@@ -24,7 +24,7 @@ export class FacilityApi {
     }
 
     static getAllFacilities() {
-        return axios.get<Array<Facility>>(`${ART_SERVICE}/facilities/list`)
+        return axiosApi.get<Array<Facility>>(`${ART_SERVICE}/facilities/list`)
     }
 
 }

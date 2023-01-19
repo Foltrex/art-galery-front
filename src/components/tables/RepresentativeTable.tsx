@@ -112,7 +112,8 @@ const RepresentativeTable: React.FC<TRepresentativePageProps> = ({
                     <RepresentativeForm 
                         open={openEditRepresentativeModal} 
                         handleClose={handleCloseEditRepresentativeModalClick}
-                        representative={currentRepresentative} />
+                        representative={currentRepresentative}
+                        facilities={facilities} />
                     <DeleteModal
                         open={openDeleteRepresentativeModal}
                         handleClose={handleCloseDeleteRepresentativeModalClick}

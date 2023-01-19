@@ -21,6 +21,7 @@ export interface TRepresentativePageProps {
 }
 
 const Index: NextPage<TRepresentativePageProps> = observer(({representatives = [], pageNumber, pageSize, totalElements, facilities}) => {
+
     const [open, setOpen] = useState(false);
 
     const handleOpenClick = () => {
@@ -38,7 +39,11 @@ const Index: NextPage<TRepresentativePageProps> = observer(({representatives = [
                 <Box textAlign='center' style={{marginTop: "10px"}}>
                     <Button variant={"contained"} color={"primary"} onClick={handleOpenClick}>Create
                         representative</Button>
-                    <RepresentativeForm open={open} handleClose={handleClose}/>
+                    <RepresentativeForm 
+                        open={open} 
+                        handleClose={handleClose} 
+                        representative={{} as Representative} 
+                        facilities={facilities} />
                 </Box>
                 <RepresentativeTablePagination
                     pageNumber={pageNumber}
@@ -72,7 +77,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     await FacilityService.getAllFacilities();
 
     const { representativeStore, facilityStore } = rootStore;
-    
     return {
         props: {
             facilities: facilityStore.facilities,
