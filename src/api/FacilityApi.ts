@@ -7,14 +7,14 @@ export class FacilityApi {
         return axiosApi.delete<any>(`${ART_SERVICE}/facilities/${id}`)
     }
     static save(facility: Facility) {
-        return axiosApi.post<any>(`${ART_SERVICE}/facilities`)
+        return axiosApi.post<Facility>(`${ART_SERVICE}/facilities`)
     }
 
     static getFacilityById(id: string) {
-        return axiosApi.get<any>(`${ART_SERVICE}/facilities/${id}`)
+        return axiosApi.get<Facility>(`${ART_SERVICE}/facilities/${id}`)
     }
 
-    static getAllFacilities(page?: number, size?: number) {
+    static getAllFacilitiesPage(page?: number, size?: number) {
         return axiosApi.get<any>(`${ART_SERVICE}/facilities`, {
             params: {
                 page: page,
@@ -23,5 +23,8 @@ export class FacilityApi {
         })
     }
 
+    static getAllFacilities() {
+        return axios.get<Array<Facility>>(`${ART_SERVICE}/facilities/list`)
+    }
 
 }
