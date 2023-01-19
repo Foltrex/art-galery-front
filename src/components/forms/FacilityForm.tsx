@@ -1,4 +1,4 @@
-import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Grid, Divider, Switch, FormControlLabel, FormControl } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Grid, Divider, Switch, FormControlLabel, FormControl, Select, InputLabel, SelectChangeEvent, MenuItem } from '@mui/material';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
@@ -6,6 +6,10 @@ import React, { useEffect, useState } from 'react';
 import { Facility } from '../../entities/facility';
 import { FacilityService } from '../../services/FacilityService';
 import { observer } from 'mobx-react';
+import { GetServerSideProps } from 'next';
+import organizationStore from '../../stores/organizationStore';
+import { OrganizationService } from '../../services/OrganizationService';
+import { Organization } from '../../entities/organization';
 
 
 const useStyles = makeStyles({
@@ -20,13 +24,14 @@ interface IFacilityFormProps {
     open: boolean;
     handleClose: () => void;
     facility: Facility;
+    organizations: Organization[];
 }
 
-const FacilityForm = observer(({open, handleClose, facility } : IFacilityFormProps) => {
+const FacilityForm = observer(({open, handleClose, facility, organizations } : IFacilityFormProps) => {
     const classes = useStyles();
-    const [facilityObj, setFacility] = useState({});
+    const [facilityObj, setFacility] = useState(facility);
 
-    useEffect(() => setFacility({...facility, isActive: false}), []);
+    useEffect(() => setFacility(facility), [facility]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value, checked} = e.target;
@@ -37,8 +42,14 @@ const FacilityForm = observer(({open, handleClose, facility } : IFacilityFormPro
         }
     }
 
+    const handleSelectChange = (e: SelectChangeEvent<string>) => {
+        console.log(e.target.value);
+        
+    }
+
     const handleSaveButttonClick = () => {
-        console.log(facilityObj);
+        console.log(facilityObj)
+        handleClose();
     }
     
     let address: String = '';
@@ -73,7 +84,7 @@ const FacilityForm = observer(({open, handleClose, facility } : IFacilityFormPro
                             <Switch 
                                 name='activity'
                                 onChange={handleChange} 
-                                checked={facility?.isActive} />
+                                defaultChecked={facility?.isActive} />
                         } 
                         label="Active"
                         sx={{ mt: 1 }} />
@@ -105,6 +116,25 @@ const FacilityForm = observer(({open, handleClose, facility } : IFacilityFormPro
                         required
                         defaultValue={facility?.organization?.name}
                     />
+                    <FormControl fullWidth variant='standard'>
+                        <InputLabel id="organizaiton-label">Facility</InputLabel>
+                        <Select
+                            labelId="organizaiton-label"
+                            id='organizaiton'
+                            name='organizaiton'
+                            label='Organization'
+                            defaultValue={facility?.organization?.id}
+                            required
+                            onChange={handleSelectChange}
+                        >
+                            {organizations?.map(organization => {
+                                return (
+                                <MenuItem value={organization.id} id={organization.id}>
+                                    {organization.name}
+                                </MenuItem>)
+                            })}
+                        </Select>
+                    </FormControl>
                 </Grid>
             </Grid>
         </DialogContent>
