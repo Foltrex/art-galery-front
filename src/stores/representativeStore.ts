@@ -36,4 +36,8 @@ export class RepresentativeStore {
         this.pageNumber = pageNumber;
     }
 
+    deleteById(id: string) {
+        this.representatives = this.representatives.filter(representative => representative.id !== id);
+    }
+
 }

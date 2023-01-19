@@ -18,3 +18,6 @@ export class RootStore {
         this.organizationStore = new OrganizationStore(this);
     }
 }
+
+const rootStore = new RootStore();
+export default rootStore;

@@ -42,8 +42,6 @@ export class FacilityStore {
     // }
 
     deleteById(id: string) {
-        console.log(id);
-        
         this.facilities = this.facilities.filter(facility => facility.id !== id)
     }
 }
