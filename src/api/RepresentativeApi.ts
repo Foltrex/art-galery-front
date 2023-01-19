@@ -26,6 +26,11 @@ export class RepresentativeApi {
         }).then(response => response.data)
     }
 
+
+    static deleteById(id: string) {
+        return axiosApi.delete<any>(`${ART_SERVICE}/representatives/${id}`);
+    }
+
     static test2() {
         return axiosApi.post<string>(`${ART_SERVICE}/representatives/post`)
     }
