@@ -7,11 +7,10 @@ import FacilityForm from '../../components/forms/FacilityForm';
 import FacilityTable from '../../components/tables/FacilityTable';
 import {Facility} from "../../entities/facility";
 import {FacilityService} from '../../services/FacilityService';
-import facilityStore from '../../stores/facilityStore';
 import FacilityTablePagination from "../../components/table-paginations/FacilityTablePagination";
 import { OrganizationService } from '../../services/OrganizationService';
-import organizationStore from '../../stores/organizationStore';
 import { Organization } from '../../entities/organization';
+import { useRootStore } from '../rootStoreAdapter';
 
 export interface TFacilityPageProps {
     facilities: Facility[],
@@ -91,13 +90,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     await FacilityService.getAllFacilities(Number(context.query.page), Number(context.query.limit));
     await OrganizationService.getAllOrganizations();
     
+    const { facilityStore, organizationStore } = useRootStore();
     return {
         props: {
             facilities: facilityStore.facilities,
             pageNumber: facilityStore.pageNumber,
             pageSize: facilityStore.pageSize,
             totalElements: facilityStore.totalElements,
-            // organizations: organizationStore.organizations
+            organizations: organizationStore.organizations
         },
     };
 }
