@@ -27,7 +27,7 @@ const FacilityForm = observer(({open, handleClose, facility, organizations } : I
                 break;
             }
             case 'address': {
-                const address: Address = parseAddressString(value);
+                // const address: Address = parseAddressString(value);
             }
             default: {
                 setFacility({...facilityObj, [name]: value});
@@ -36,18 +36,18 @@ const FacilityForm = observer(({open, handleClose, facility, organizations } : I
         }
     }
 
-    const parseAddressString = (addressString: string): Address => {
-        const {city} = facilityObj.address;
-        const values: string[] = addressString.split(', ');
-        const address: Address = {
-            id: facilityObj?.id,
-            city: null,
-            streetName: values[1],
-            streetNumber: +values[2]
-        }
+    // const parseAddressString = (addressString: string): Address => {
+    //     const {city} = facilityObj.address;
+    //     const values: string[] = addressString.split(', ');
+    //     const address: Address = {
+    //         id: facilityObj?.id,
+    //         city: null,
+    //         streetName: values[1],
+    //         streetNumber: +values[2]
+    //     }
 
-        return address;
-    }
+    //     return address;
+    // }
 
     const handleSelectChange = (e: SelectChangeEvent<string>) => {
         const { name, value } = e.target;
