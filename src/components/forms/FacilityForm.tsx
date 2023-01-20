@@ -2,6 +2,7 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, For
 import TextField from '@mui/material/TextField';
 import { observer } from 'mobx-react';
 import React, { useEffect, useState } from 'react';
+import { Address } from '../../entities/address';
 import { Facility } from '../../entities/facility';
 import { Organization } from '../../entities/organization';
 
@@ -20,11 +21,32 @@ const FacilityForm = observer(({open, handleClose, facility, organizations } : I
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value, checked} = e.target;
-        if (name === 'activity') {
-            setFacility({...facilityObj, isActive: checked })
-        } else {
-            setFacility({...facilityObj, [name]: value});
+        switch (name) {
+            case 'activity': {
+                setFacility({...facilityObj, isActive: checked })
+                break;
+            }
+            case 'address': {
+                const address: Address = parseAddressString(value);
+            }
+            default: {
+                setFacility({...facilityObj, [name]: value});
+                break;
+            }
         }
+    }
+
+    const parseAddressString = (addressString: string): Address => {
+        const {city} = facilityObj.address;
+        const values: string[] = addressString.split(', ');
+        const address: Address = {
+            id: facilityObj?.id,
+            city: null,
+            streetName: values[1],
+            streetNumber: +values[2]
+        }
+
+        return address;
     }
 
     const handleSelectChange = (e: SelectChangeEvent<string>) => {
