@@ -8,7 +8,13 @@ import { FacilityService } from '../../services/FacilityService';
 import FacilityForm from '../forms/FacilityForm';
 import DeleteModal from '../modals/DeleteModal';
 
-const FacilityTable: React.FC<TFacilityPageProps> = observer(({facilities, pageNumber, pageSize, organizations}) => {
+const FacilityTable: React.FC<TFacilityPageProps> = observer(({
+    facilities, 
+    pageNumber, 
+    pageSize, 
+    organizations, 
+    cities
+}) => {
     
     const columns = [
         {id: 'number', label: '#', minWidth: 5, align: "center"},
@@ -106,11 +112,8 @@ const FacilityTable: React.FC<TFacilityPageProps> = observer(({facilities, pageN
                         open={openEditFacilityModal} 
                         handleClose={handleCloseEditFacilityModalClick} 
                         facility={currentFacility!}
-                        organizations={organizations}/>
-                    {/* <DeleteFacilityModal 
-                        open={openDeleteFacilityModal} 
-                        handleClose={handleCloseDeleteFacilityModalClick}
-                        facility={currentFacility!} /> */}
+                        organizations={organizations}
+                        cities={cities}/>
                     <DeleteModal
                         open={openDeleteFacilityModal}
                         handleClose={handleCloseDeleteFacilityModalClick}

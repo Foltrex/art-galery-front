@@ -1,10 +1,17 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, FormControl, FormControlLabel, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, Switch } from '@mui/material';
 import TextField from '@mui/material/TextField';
+import { Box } from '@mui/system';
 import { observer } from 'mobx-react';
+import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { Address } from '../../entities/address';
+import { City } from '../../entities/city';
 import { Facility } from '../../entities/facility';
 import { Organization } from '../../entities/organization';
+import { AddressService } from '../../services/AddressService';
+import { CityService } from '../../services/CityService';
+import { FacilityService } from '../../services/FacilityService';
+import rootStore from '../../stores/rootStore';
 
 
 interface IFacilityFormProps {
@@ -12,58 +19,67 @@ interface IFacilityFormProps {
     handleClose: () => void;
     facility: Facility;
     organizations: Organization[];
+    cities: City[]
 }
 
-const FacilityForm = observer(({open, handleClose, facility, organizations } : IFacilityFormProps) => {
+const FacilityForm = observer(({open, handleClose, facility, organizations, cities } : IFacilityFormProps) => {
     const [facilityObj, setFacility] = useState(facility);
 
-    useEffect(() => setFacility(facility), [facility]);
+    const [addresses, setAddresses] = useState<Array<Address>>();
+
+    const router = useRouter();
+
+    useEffect(() => {
+        setFacility(facility)
+
+        if (!addresses || !addresses[0]) {
+            setAddresses([facility?.address]);
+        }
+
+    }, [facility]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value, checked} = e.target;
+        if (name === 'activity') {
+            setFacility({...facilityObj, isActive: checked });
+        } else {
+            setFacility({...facilityObj, [name]: value});
+        }
+    }
+
+
+    const handleSelectChange = async (e: SelectChangeEvent<string>) => {
+        const { name, value } = e.target;
         switch (name) {
-            case 'activity': {
-                setFacility({...facilityObj, isActive: checked })
+            case 'organization': {
+                const index = organizations
+                    .map(organization => organization.id)
+                    .indexOf(value);
+
+                setFacility({...facilityObj, organization: organizations[index] });
+                break;
+            }
+            case 'city': {
+                await AddressService.getAllAddressesByCityId(value);
+                const {addressStore} = rootStore;
+                setAddresses(addressStore.getAddresses());
+                router.replace(router.asPath);
                 break;
             }
             case 'address': {
-                // const address: Address = parseAddressString(value);
-            }
-            default: {
-                setFacility({...facilityObj, [name]: value});
+                const index = addresses!
+                    .map(address => address.id)
+                    .indexOf(value);
+
+                setFacility({...facilityObj, address: addresses![index]});
                 break;
             }
         }
-    }
-
-    // const parseAddressString = (addressString: string): Address => {
-    //     const {city} = facilityObj.address;
-    //     const values: string[] = addressString.split(', ');
-    //     const address: Address = {
-    //         id: facilityObj?.id,
-    //         city: null,
-    //         streetName: values[1],
-    //         streetNumber: +values[2]
-    //     }
-
-    //     return address;
-    // }
-
-    const handleSelectChange = (e: SelectChangeEvent<string>) => {
-        const { name, value } = e.target;
-        if (name === 'organizaiton') {
-            const index = organizations
-                .map(organization => organization.id)
-                .indexOf(value);
-
-            setFacility({...facilityObj, organization: organizations[index] })
-        }
-        console.log(facilityObj);
         
     }
 
-    const handleSaveButttonClick = () => {
-        console.log(facilityObj)
+    const handleSaveButttonClick = async () => {
+        // await FacilityService.save()
         handleClose();
     }
     
@@ -80,7 +96,7 @@ const FacilityForm = observer(({open, handleClose, facility, organizations } : I
         </DialogTitle>
         <Divider />
         <DialogContent>
-            <Grid container rowSpacing='3'>
+            <Grid container rowSpacing={2}>
                 <Grid item xs={12}>
                     <TextField
                         autoFocus
@@ -107,25 +123,49 @@ const FacilityForm = observer(({open, handleClose, facility, organizations } : I
                         sx={{ mt: 1 }} />
                 </Grid>
                 <Grid item xs={12}>
-                    <TextField 
-                        id='address'
-                        label='Address'
-                        name='address'
-                        onChange={handleChange}
-                        fullWidth
-                        variant='standard'
-                        type='text'
-                        inputProps={{ pattern: /[A-Za-zА-Яа-я\s\.\-]+,\s*[A-Za-zА-Яа-я\s\.\-]+,\s*\w+/ }}
-                        placeholder='City, Street Name, Street Number'
-                        required
-                        defaultValue={address}
-                        sx={{
-                            '& input:invalid': {
-                                borderBottom: 2,
-                                BorderColor: 'red'
-                            }
-                        }}
-                    />
+                    <Box sx={{display: 'flex', gap: '7px'}}>
+                        <FormControl sx={{flexGrow: 1}} size='small'>
+                            <InputLabel id='city-label'>City</InputLabel>
+                            <Select 
+                                labelId='city-label'
+                                id='city'
+                                name='city'
+                                label='City'
+                                defaultValue={facility?.address?.city?.id}
+                                required
+                                onChange={handleSelectChange}
+                            >
+                                {cities?.map(city => {
+                                    return (
+                                        <MenuItem id={city.id} value={city.id}>
+                                            {city.name}
+                                        </MenuItem>
+                                    );
+                                })}
+                            </Select>
+                        </FormControl>
+                        <FormControl sx={{flexGrow: 2}} size='small'>
+                            <InputLabel id='address-label'>Address</InputLabel>
+                            <Select 
+                                labelId='address-label'
+                                id='address'
+                                name='address'
+                                label='Address'
+                                defaultValue={facility?.address?.id}
+                                required
+                                onChange={handleSelectChange}
+                            >
+                                {addresses && addresses[0] && addresses.map(address => {
+                                    console.log(addresses);
+                                    return (
+                                        <MenuItem id={address.id} value={address.id}>
+                                            {address.streetName}, {address.streetNumber}
+                                        </MenuItem>
+                                    );
+                                })}
+                            </Select>
+                        </FormControl>
+                    </Box>
                 </Grid>
                 <Grid item xs={12}>
                     <FormControl fullWidth variant='standard'>
