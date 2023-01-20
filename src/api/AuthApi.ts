@@ -1,15 +1,11 @@
 import {axiosApi, USER_SERVICE} from "../http/axios";
-import {Representative} from "../entities/representative";
+import {TAuthToken} from "../entities/types/TAuthToken";
 
-interface TAuthTokenDto {
-    id: string,
-    token: string,
-}
 
 export class AuthApi {
 
     static register(email: string, password: string, accountType: string) {
-        return axiosApi.post<TAuthTokenDto>(`${USER_SERVICE}/auth/register`, {
+        return axiosApi.post<TAuthToken>(`${USER_SERVICE}/auth/register`, {
             email: email,
             password: password,
             accountType: accountType,
@@ -17,7 +13,7 @@ export class AuthApi {
     }
 
     static login(email: string, password: string) {
-        return axiosApi.post<TAuthTokenDto>(`${USER_SERVICE}/auth/login`, {
+        return axiosApi.post<TAuthToken>(`${USER_SERVICE}/auth/login`, {
             email: email,
             password: password
         })
