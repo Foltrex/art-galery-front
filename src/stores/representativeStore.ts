@@ -1,14 +1,18 @@
 import {makeAutoObservable} from "mobx";
 import {Representative} from "../entities/representative";
+import { RootStore } from "./rootStore";
 
 export class RepresentativeStore {
+    rootStore: RootStore;
+
     representatives: Representative[] = [];
     representative?: Representative;
     totalElements = 0;
     pageSize = 10;
     pageNumber = 0;
 
-    constructor() {
+    constructor(rootStore: RootStore) {
+        this.rootStore = rootStore;
         makeAutoObservable(this);
     }
 
@@ -37,5 +41,3 @@ export class RepresentativeStore {
     }
 
 }
-
-export default new RepresentativeStore();
