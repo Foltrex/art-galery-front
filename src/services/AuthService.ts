@@ -16,7 +16,7 @@ export class AuthService {
             })
             .catch(async error => {
                 console.log("Error to register: ", error.response.data)
-                await alertStore.setShow(true, "error", "Register error", error.response.data.message)
+                await alertStore.setShow(true, "error", "SignUp error", error.response.data.message)
             })
     }
 
@@ -27,7 +27,7 @@ export class AuthService {
             })
             .catch(error => {
                 console.log("Error to login: ", error)
-                alertStore.setShow(true, "error", "Login error", error.response.data.message)
+                alertStore.setShow(true, "error", "SignIn error", error.response.data.message)
             })
     }
 
@@ -47,7 +47,7 @@ export class AuthService {
 
     static async logout() {
         cookies.remove("token", {path: "/"})
-        await Router.push("/security/signin")
+        await Router.push("/auth/signin")
     }
 
 }
