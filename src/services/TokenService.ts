@@ -1,11 +1,10 @@
 import jwt_decode from "jwt-decode";
+import {TDecodedToken} from "../entities/types/TDecodedToken";
 
 export class TokenService {
 
-    static decode(token: string) {
-        const decoded = jwt_decode(token);
-        console.log(decoded);
-
-        return decoded;
+    static decode(token: string): TDecodedToken {
+        return jwt_decode(token);
     }
+
 }

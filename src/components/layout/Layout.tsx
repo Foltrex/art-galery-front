@@ -18,9 +18,13 @@ import ListItemText from "@mui/material/ListItemText";
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import HomeWorkOutlinedIcon from '@mui/icons-material/HomeWorkOutlined';
 import PhotoSizeSelectActualOutlinedIcon from '@mui/icons-material/PhotoSizeSelectActualOutlined';
-import React, {PropsWithChildren} from "react";
+import React, {PropsWithChildren, useEffect, useState} from "react";
 import Link from "next/link";
 import Button from "@mui/material/Button";
+import {AuthService} from "../../services/AuthService";
+import {observer} from "mobx-react-lite";
+import {Cookies} from "react-cookie";
+import {CircularProgress} from "@mui/material";
 
 const drawerWidth = 240;
 
@@ -72,7 +76,7 @@ const DrawerHeader = styled("div")(({theme}) => ({
     justifyContent: "flex-end"
 }));
 
-const Layout: React.FC<PropsWithChildren> = ({children}) => {
+const Layout: React.FC<PropsWithChildren> = observer(({children}) => {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
 
@@ -83,6 +87,45 @@ const Layout: React.FC<PropsWithChildren> = ({children}) => {
     const handleDrawerClose = () => {
         setOpen(false);
     };
+
+    const [isLogin, setIsLogin] = useState<boolean | null>(null)
+
+    const cookies = new Cookies()
+
+    useEffect(() => {
+        setIsLogin(AuthService.isAuthenticated)
+    }, [cookies])
+
+    const renderButton = () => {
+        if (isLogin === null) {
+            return (
+                <CircularProgress color="success"/>
+            )
+        } else if (isLogin) {
+            return (
+                <Button
+                    color="inherit"
+                    variant="outlined"
+                    onClick={() => {
+                        AuthService.logout()
+                    }}
+                >
+                    Logout
+                </Button>
+            )
+        } else {
+            return (
+                <Button
+                    color="inherit"
+                    variant="outlined"
+                    component={Link}
+                    href='/security/signin'
+                >
+                    Login
+                </Button>
+            )
+        }
+    }
 
     return (
         <Box sx={{display: 'flex'}}>
@@ -107,14 +150,28 @@ const Layout: React.FC<PropsWithChildren> = ({children}) => {
                         sx={{flexGrow: 1, textDecoration: 'none'}}>
                         Admin
                     </Typography>
-                    <Button
-                        color="inherit"
-                        variant="outlined"
-                        component={Link}
-                        href='/security/signin'
-                    >
-                        Login
-                    </Button>
+                    {renderButton()}
+                    {/*{*/}
+                    {/*    isLogin ?*/}
+                    {/*        <Button*/}
+                    {/*            color="inherit"*/}
+                    {/*            variant="outlined"*/}
+                    {/*            onClick={() => {*/}
+                    {/*                AuthService.logout()*/}
+                    {/*            }}*/}
+                    {/*        >*/}
+                    {/*            Logout*/}
+                    {/*        </Button>*/}
+                    {/*        :*/}
+                    {/*        <Button*/}
+                    {/*            color="inherit"*/}
+                    {/*            variant="outlined"*/}
+                    {/*            component={Link}*/}
+                    {/*            href='/security/signin'*/}
+                    {/*        >*/}
+                    {/*            Login*/}
+                    {/*        </Button>*/}
+                    {/*}*/}
                 </Toolbar>
             </AppBar>
             <Drawer
@@ -192,6 +249,7 @@ const Layout: React.FC<PropsWithChildren> = ({children}) => {
             </Main>
         </Box>
     );
-};
+});
+
 
 export default Layout;

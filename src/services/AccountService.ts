@@ -1,10 +1,10 @@
 import {AuthApi} from "../api/AuthApi";
-import {AccountType} from "../entities/enums/AccountType";
+import {AccountEnum} from "../entities/enums/AccountEnum";
 
 export class AccountService {
 
     static registerRepresentative(email: string, password: string) {
-        AuthApi.register(email, password, AccountType.REPRESENTATIVE)
+        AuthApi.register(email, password, AccountEnum.REPRESENTATIVE)
             .then(response => {
             })
             .catch(error => {

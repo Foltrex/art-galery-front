@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import CssBaseline from '@mui/material/CssBaseline';
-import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
@@ -13,6 +12,7 @@ import {observer} from "mobx-react-lite";
 import {Form, Formik} from 'formik';
 import * as yup from "yup";
 import {Button, Checkbox, FormControlLabel, Grid, TextField} from '@mui/material';
+import Link from 'next/link';
 
 function Copyright(props: any) {
     return (
@@ -92,12 +92,12 @@ const SignIn = observer(() => {
                         </Button>
                         <Grid container>
                             <Grid item xs>
-                                <Link href="#" variant="body2">
+                                <Link href="#">
                                     Forgot password?
                                 </Link>
                             </Grid>
                             <Grid item>
-                                <Link href={"/security/signup"} variant="body2">
+                                <Link href={"/security/signup"}>
                                     {"Don't have an account? Sign Up"}
                                 </Link>
                             </Grid>
@@ -112,20 +112,15 @@ const SignIn = observer(() => {
         <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">
                 <CssBaseline/>
-                <Box
-                    sx={{
-                        marginTop: 5,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                    }}
+                <Box sx={{
+                    marginTop: 5,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                }}
                 >
-                    <Avatar sx={{m: 1, bgcolor: 'secondary.main'}}>
-                        <LockOutlinedIcon/>
-                    </Avatar>
-                    <Typography component="h1" variant="h5">
-                        Sign in
-                    </Typography>
+                    <Avatar sx={{m: 1, bgcolor: 'secondary.main'}}><LockOutlinedIcon/></Avatar>
+                    <Typography component="h1" variant="h5">Sign in</Typography>
                     <SignInForm/>
                 </Box>
                 <Copyright sx={{mt: 4, mb: 4}}/>
