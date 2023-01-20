@@ -67,20 +67,20 @@ const FacilityTable: React.FC<TFacilityPageProps> = observer(({facilities, pageN
                     {facilities.map((facility, index) => {
                         return (
                             <TableRow hover tabIndex={-1} key={index}>
-                                <TableCell align='center'>
+                                <TableCell key='number' align='center'>
                                     {index + 1 + pageSize * pageNumber}
                                 </TableCell>
-                                <TableCell align='center'>{facility.name}</TableCell>
-                                <TableCell align='center'>
+                                <TableCell key='name' align='center'>{facility.name}</TableCell>
+                                <TableCell key='isActive' align='center'>
                                     {facility.isActive ? 'Active' : 'Inactive' }
                                 </TableCell>
-                                <TableCell align='center'>
+                                <TableCell key='address' align='center'>
                                     {facility.address?.streetName}
                                 </TableCell>
-                                <TableCell align='center'>
+                                <TableCell key='organization' align='center'>
                                     {facility.organization?.name}
                                 </TableCell>
-                                <TableCell align='center'>
+                                <TableCell key='action' align='center'>
                                     <div>
                                         <Button
                                             style={{minWidth: "100px"}}

@@ -118,7 +118,7 @@ const RepresentativeForm = ({open, handleClose, representative, facilities } : I
                         >
                             {facilities?.map(facility => {
                                 return (
-                                    <MenuItem value={facility.id} id={facility.id}>
+                                    <MenuItem key={facility.id} value={facility.id}>
                                         {facility.name}
                                     </MenuItem>
                                 );
@@ -139,7 +139,7 @@ const RepresentativeForm = ({open, handleClose, representative, facilities } : I
                         >
                             {Object.values(OrganizationRoleEnum).map(organizationRole => {
                                 return (
-                                    <MenuItem value={organizationRole}>
+                                    <MenuItem key={organizationRole} value={organizationRole}>
                                         {organizationRole}
                                     </MenuItem>
                                 );
