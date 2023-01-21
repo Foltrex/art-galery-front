@@ -1,38 +1,38 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
 
 * {
-  font-family: 'Open Sans', sans-serif;
+    font-family: 'Open Sans', sans-serif;
 }
 
-a {
-  text-decoration: none;
-  color: #000000;
+.my-link {
+    text-decoration: none;
+    color: #000000;
 }
 
-a:hover {
-  text-decoration: underline;
-  color: #2159d2;
+.my-link:hover {
+    text-decoration: underline;
+    color: #2159d2;
 }
 
 
 table {
-  border-collapse: collapse;
-  width: 100%;
+    border-collapse: collapse;
+    width: 100%;
 }
 
 tbody tr:hover {
-  background-color: rgba(4, 169, 245, 0.1);
+    background-color: rgba(4, 169, 245, 0.1);
 }
 
 tr {
-  border-bottom: 1px solid #ddd;
-  text-align: left;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
 }
 
 th {
-  font-weight: bold;
+    font-weight: bold;
 }
 
 td, th {
-  color: #888
+    color: #888
 }

@@ -15,7 +15,10 @@ export class OrganizationService {
     static async getOrganizationByAccountId(accountId: string) {
         return OrganizationApi.getOrganizationByAccountId(accountId)
             .then(response => response.data)
-            .catch(error => console.log(error))
+            .catch(error => {
+                console.log(error)
+                return null
+            })
     }
 
 }

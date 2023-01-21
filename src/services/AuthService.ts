@@ -45,6 +45,14 @@ export class AuthService {
         return cookies.get("token") !== undefined;
     }
 
+    static getToken(): string {
+        if (!this.isAuthenticated()) {
+            throw new Error("User is not authenticated")
+        }
+
+        return cookies.get("token")
+    }
+
     static async logout() {
         cookies.remove("token", {path: "/"})
         await Router.push("/auth/signin")

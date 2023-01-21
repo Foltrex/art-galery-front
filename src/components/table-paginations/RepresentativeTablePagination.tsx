@@ -1,7 +1,7 @@
 import React from "react";
 import TablePagination from "@mui/material/TablePagination";
-import representativeStore from "../../stores/representativeStore";
 import {useRouter} from "next/router";
+import rootStore from "../../stores/rootStore";
 
 export interface TRepresentativePaginationProps {
     pageNumber: number,
@@ -11,6 +11,7 @@ export interface TRepresentativePaginationProps {
 
 const RepresentativeTablePagination: React.FC<TRepresentativePaginationProps> = (props) => {
     const router = useRouter();
+    const {representativeStore} = rootStore;
 
     const updateQuery = (limit: number, page: number) => {
         router.push({
