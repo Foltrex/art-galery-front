@@ -1,18 +1,21 @@
+import {makeAutoObservable} from "mobx";
+
 class UIStore {
-    isShow: boolean = true;
+    isShow: boolean;
 
     constructor(initialData = {}) {
-        // @ts-ignore
         this.isShow = initialData.isShow
+        makeAutoObservable(this)
     }
 
     setIsShow(isShow: boolean) {
         console.log("AAAAAA")
-        this.isShow = isShow;
+        console.log(this.isShow)
+        this.isShow = !this.isShow;
     }
 
-
     __data() {
+        console.log("DATA")
         return {
             isShow: this.isShow
         };

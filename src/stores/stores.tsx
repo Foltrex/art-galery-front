@@ -1,7 +1,6 @@
 import UIStore from './UIStore';
-import React, {ReactElement, ReactPortal} from "react";
+import React from "react";
 import {isServer} from "../utils/isServer";
-import {RootStore} from "./rootStore";
 
 let clientSideStores: { uiStore: UIStore; };
 
@@ -17,7 +16,7 @@ export function getStores(initialData = {uiStoreInitialData: {}}) {
         };
     }
 
-    return clientSideStores;
+    return clientSideStores
 }
 
 interface InterfaceStore {
@@ -25,8 +24,9 @@ interface InterfaceStore {
 }
 
 
-// const StoreContext = React.createContext();
-const StoreContext = React.createContext<RootStore | undefined>(undefined);
+const StoreContext = React.createContext();
+
+// const StoreContext = React.createContext<RootStore | undefined>(undefined);
 
 export function StoreProvider(props) {
     return <StoreContext.Provider value={props.value}> {props.children} </StoreContext.Provider>;

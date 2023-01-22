@@ -7,6 +7,7 @@ import { Router } from 'next/router';
 
 class CustomApp extends App {
     static async getInitialProps(appContext: { ctx: any; Component?: NextComponentType<NextPageContext, {}, {}>; AppTree?: AppTreeType; router?: Router; }) {
+        console.log("BBBBBBBBBBBB")
         // On server-side, this runs once and creates new stores
         // On client-side, this always reuses existing stores
         const mobxStores = getStores();
@@ -19,7 +20,7 @@ class CustomApp extends App {
 
         // Gather serialization-friendly data from stores
         const initialData = {
-            postStoreInitialData: mobxStores.uiStore.__data(),
+            uiStoreInitialData: mobxStores.uiStore.__data(),
         };
 
         // Send it to `render`
@@ -36,6 +37,7 @@ class CustomApp extends App {
         // During the client-side hydration, same applies.
         // From then on, calls to `getStores()` return existing instances.
         const stores = getStores(initialData);
+        console.log(stores)
 
         return (
             <StoreProvider value={stores}>
