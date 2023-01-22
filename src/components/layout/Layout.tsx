@@ -119,7 +119,7 @@ const Layout: React.FC<PropsWithChildren> = observer(({children}) => {
                     color="inherit"
                     variant="outlined"
                     component={Link}
-                    href='/security/signin'
+                    href={'/auth/signin'}
                 >
                     Login
                 </Button>
@@ -151,27 +151,6 @@ const Layout: React.FC<PropsWithChildren> = observer(({children}) => {
                         Admin
                     </Typography>
                     {renderButton()}
-                    {/*{*/}
-                    {/*    isLogin ?*/}
-                    {/*        <Button*/}
-                    {/*            color="inherit"*/}
-                    {/*            variant="outlined"*/}
-                    {/*            onClick={() => {*/}
-                    {/*                AuthService.logout()*/}
-                    {/*            }}*/}
-                    {/*        >*/}
-                    {/*            Logout*/}
-                    {/*        </Button>*/}
-                    {/*        :*/}
-                    {/*        <Button*/}
-                    {/*            color="inherit"*/}
-                    {/*            variant="outlined"*/}
-                    {/*            component={Link}*/}
-                    {/*            href='/security/signin'*/}
-                    {/*        >*/}
-                    {/*            Login*/}
-                    {/*        </Button>*/}
-                    {/*}*/}
                 </Toolbar>
             </AppBar>
             <Drawer

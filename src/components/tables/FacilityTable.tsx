@@ -7,6 +7,7 @@ import { TFacilityPageProps } from '../../pages/facilities';
 import { FacilityService } from '../../services/FacilityService';
 import FacilityForm from '../forms/FacilityForm';
 import DeleteModal from '../modals/DeleteModal';
+import rootStore from "../../stores/rootStore";
 
 const FacilityTable: React.FC<TFacilityPageProps> = observer(({
     facilities, 
@@ -52,6 +53,9 @@ const FacilityTable: React.FC<TFacilityPageProps> = observer(({
         setOpenDeleteFacilityModal(false);
         router.replace(router.asPath);
     }
+
+    const { facilityStore, organizationStore, cityStore } = rootStore;
+
 
     return (
         <TableContainer>

@@ -1,11 +1,12 @@
 import {AuthApi} from "../api/AuthApi";
 import {AccountEnum} from "../entities/enums/AccountEnum";
 import Router from 'next/router'
-import alertStore from "../stores/alertStore";
 import {TokenService} from "./TokenService";
 import {Cookies} from "react-cookie"
+import rootStore from "../stores/rootStore";
 
 const cookies = new Cookies()
+const { alertStore } = rootStore;
 
 export class AuthService {
 

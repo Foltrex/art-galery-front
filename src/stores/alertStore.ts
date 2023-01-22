@@ -1,14 +1,17 @@
 import {makeAutoObservable} from "mobx";
 import {AlertColor} from "@mui/material";
+import {RootStore} from "./rootStore";
 
-class AlertStore {
+export class AlertStore {
+    rootStore: RootStore;
 
     show: boolean = false;
     severity?: AlertColor = "success";
     title?: string = '';
     text?: string = ''
 
-    constructor() {
+    constructor(rootStore: RootStore) {
+        this.rootStore = rootStore;
         makeAutoObservable(this);
     }
 
@@ -39,5 +42,3 @@ class AlertStore {
     }
 
 }
-
-export default new AlertStore();

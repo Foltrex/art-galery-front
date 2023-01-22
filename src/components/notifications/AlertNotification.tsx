@@ -2,8 +2,8 @@ import React from "react";
 import {Alert, AlertColor, AlertTitle, Collapse} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import alertStore from "../../stores/alertStore";
 import {observer} from "mobx-react-lite";
+import rootStore from "../../stores/rootStore";
 
 interface IRepresentativeTableItemProps {
     severity?: AlertColor,
@@ -12,6 +12,8 @@ interface IRepresentativeTableItemProps {
 }
 
 const AlertNotification: React.FC<IRepresentativeTableItemProps> = observer((props) => {
+    const {alertStore} = rootStore;
+
     return (
         <div>
             <Collapse in={alertStore.show}>

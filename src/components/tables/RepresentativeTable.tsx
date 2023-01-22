@@ -12,6 +12,7 @@ import { TRepresentativePageProps } from "../../pages/representatives";
 import { RepresentativeService } from '../../services/RepresentativeService';
 import RepresentativeForm from '../forms/RepresentativeForm';
 import DeleteModal from '../modals/DeleteModal';
+import rootStore from "../../stores/rootStore";
 
 const RepresentativeTable: React.FC<TRepresentativePageProps> = ({
     representatives, 

@@ -11,25 +11,19 @@ import AlertNotification from '../../components/notifications/AlertNotification'
 import {observer} from "mobx-react-lite";
 import {Form, Formik} from 'formik';
 import * as yup from "yup";
-import {Button, Checkbox, FormControlLabel, Grid, TextField} from '@mui/material';
+import {Button, Checkbox, CircularProgress, FormControlLabel, Grid, TextField} from '@mui/material';
 import Link from 'next/link';
-
-function Copyright(props: any) {
-    return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
-            {'Copyright © '}
-            <Link color="inherit" href="#">
-                Art Galery
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
+import Copyright from '../../components/ui/Copyright';
+import {GetServerSideProps} from "next";
+import {useEffect, useState} from "react";
+import rootStore from "../../stores/rootStore";
+import {AlertService} from "../../services/AlertService";
+import {useMobxStores} from "../../stores/stores";
 
 const theme = createTheme();
 
 const SignIn = observer(() => {
+    const { uiStore } = useMobxStores();
 
     const initialValues = {
         email: '',
@@ -40,6 +34,11 @@ const SignIn = observer(() => {
         email: yup.string().required('Email cannot be empty').min(1).email("Email not valid"),
         password: yup.string().required('Password cannot be empty').min(1)
     })
+
+    useEffect(() => {
+        console.log(uiStore.isShow)
+        AlertService.setAlertShow(false)
+    }, [])
 
     const SignInForm = () => {
         return (
@@ -63,7 +62,9 @@ const SignIn = observer(() => {
                             fullWidth
                             label="Email"
                             defaultValue={formik.values.email}
-                            onChange={(event) => formik.setFieldValue('email', event.target.value)}
+                            onChange={(event) => {
+                                formik.setFieldValue('email', event.target.value)
+                            }}
                             error={!!formik.errors.email} helperText={formik.errors.email}
                         />
                         <TextField
@@ -74,7 +75,9 @@ const SignIn = observer(() => {
                             type="password"
                             id="password"
                             defaultValue={formik.values.password}
-                            onChange={(event) => formik.setFieldValue('password', event.target.value)}
+                            onChange={(event) => {
+                                formik.setFieldValue('password', event.target.value)
+                            }}
                             error={!!formik.errors.password} helperText={formik.errors.password}
                         />
                         <FormControlLabel
@@ -88,16 +91,16 @@ const SignIn = observer(() => {
                             disabled={formik.isSubmitting}
                             sx={{mt: 3, mb: 2}}
                         >
-                            {formik.isSubmitting ? "Loading..." : "Sign In"}
+                            {formik.isSubmitting ? <CircularProgress/> : "Sign In"}
                         </Button>
                         <Grid container>
                             <Grid item xs>
-                                <Link href="#">
+                                <Link className={"my-link"} href={"/auth/passwordrecovery"}>
                                     Forgot password?
                                 </Link>
                             </Grid>
                             <Grid item>
-                                <Link href={"/security/signup"}>
+                                <Link className={"my-link"} href={"/auth/signup"}>
                                     {"Don't have an account? Sign Up"}
                                 </Link>
                             </Grid>
@@ -111,6 +114,7 @@ const SignIn = observer(() => {
     return (
         <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">
+                {uiStore.isShow ? "TRUE" : "FALSE"}
                 <CssBaseline/>
                 <Box sx={{
                     marginTop: 5,
@@ -123,6 +127,7 @@ const SignIn = observer(() => {
                     <Typography component="h1" variant="h5">Sign in</Typography>
                     <SignInForm/>
                 </Box>
+                <button onClick={() => uiStore.setIsShow(true)}>Update isShow</button>
                 <Copyright sx={{mt: 4, mb: 4}}/>
             </Container>
         </ThemeProvider>
@@ -130,3 +135,30 @@ const SignIn = observer(() => {
 })
 
 export default SignIn
+
+SignIn.getInitialProps = async ({ mobxStores: { uiStore }, query }) => {
+
+    uiStore.setIsShow(true)
+    return {
+        id: query.id,
+    };
+};
+
+// export const getServerSideProps: GetServerSideProps = async (context) => {
+//     // @ts-ignore
+//     // const { uiStore } = useMobxStores();
+//     // uiStore.setIsShow(true)
+//     const token = context.req.cookies.token
+//     if (token !== undefined) {
+//         return {
+//             redirect: {
+//                 destination: '/',
+//                 permanent: false,
+//             },
+//         }
+//     }
+//
+//     return {
+//         props: {}
+//     }
+// }

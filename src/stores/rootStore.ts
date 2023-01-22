@@ -1,15 +1,13 @@
-
-import React from "react";
-import { createContext, ReactNode } from "react";
-import { Organization } from "../entities/organization";
-import { AddressStore } from "./addressStore";
-import { CityStore } from "./cityStore";
-import { FacilityStore } from "./facilityStore";
-import { OrganizationStore } from "./organizationStore";
-import { RepresentativeStore } from "./representativeStore";
+import {AddressStore} from "./addressStore";
+import {CityStore} from "./cityStore";
+import {FacilityStore} from "./facilityStore";
+import {OrganizationStore} from "./organizationStore";
+import {RepresentativeStore} from "./representativeStore";
+import {AlertStore} from "./alertStore";
 
 
 export class RootStore {
+    alertStore: AlertStore;
     facilityStore: FacilityStore;
     representativeStore: RepresentativeStore;
     organizationStore: OrganizationStore;
@@ -17,6 +15,7 @@ export class RootStore {
     addressStore: AddressStore;
 
     constructor() {
+        this.alertStore = new AlertStore(this)
         this.facilityStore = new FacilityStore(this);
         this.representativeStore = new RepresentativeStore(this);
         this.organizationStore = new OrganizationStore(this);
