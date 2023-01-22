@@ -7,7 +7,6 @@ import { Router } from 'next/router';
 
 class CustomApp extends App {
     static async getInitialProps(appContext: { ctx: any; Component?: NextComponentType<NextPageContext, {}, {}>; AppTree?: AppTreeType; router?: Router; }) {
-        console.log("BBBBBBBBBBBB")
         // On server-side, this runs once and creates new stores
         // On client-side, this always reuses existing stores
         const mobxStores = getStores();
