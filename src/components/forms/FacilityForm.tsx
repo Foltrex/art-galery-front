@@ -31,7 +31,6 @@ const FacilityForm = observer(({open, handleClose, facility, organizations, citi
 
     useEffect(() => {
         setFacility(facility)
-
         if (!addresses || !addresses[0]) {
             setAddresses([facility?.address]);
         }
@@ -50,12 +49,13 @@ const FacilityForm = observer(({open, handleClose, facility, organizations, citi
 
     const handleSelectChange = async (e: SelectChangeEvent<string>) => {
         const { name, value } = e.target;
+        
         switch (name) {
             case 'organization': {
                 const index = organizations
                     .map(organization => organization.id)
                     .indexOf(value);
-
+                
                 setFacility({...facilityObj, organization: organizations[index] });
                 break;
             }
@@ -63,15 +63,17 @@ const FacilityForm = observer(({open, handleClose, facility, organizations, citi
                 await AddressService.getAllAddressesByCityId(value);
                 const {addressStore} = rootStore;
                 setAddresses(addressStore.getAddresses());
-                router.replace(router.asPath);
+                router.push(router.asPath, undefined, { shallow: true })
                 break;
             }
             case 'address': {
                 const index = addresses!
                     .map(address => address.id)
                     .indexOf(value);
-
-                setFacility({...facilityObj, address: addresses![index]});
+                
+                // Parsing in order to get rid of proxy objects
+                const address: Address = JSON.parse(JSON.stringify(addresses![index]));
+                setFacility({...facilityObj, address: address});
                 break;
             }
         }
@@ -79,7 +81,8 @@ const FacilityForm = observer(({open, handleClose, facility, organizations, citi
     }
 
     const handleSaveButttonClick = async () => {
-        // await FacilityService.save()
+        await FacilityService.save(facilityObj);
+        
         handleClose();
     }
     
@@ -156,7 +159,6 @@ const FacilityForm = observer(({open, handleClose, facility, organizations, citi
                                 onChange={handleSelectChange}
                             >
                                 {addresses && addresses[0] && addresses.map(address => {
-                                    console.log(addresses);
                                     return (
                                         <MenuItem id={address.id} value={address.id}>
                                             {address.streetName}, {address.streetNumber}
@@ -169,11 +171,11 @@ const FacilityForm = observer(({open, handleClose, facility, organizations, citi
                 </Grid>
                 <Grid item xs={12}>
                     <FormControl fullWidth variant='standard'>
-                        <InputLabel id="organizaiton-label">Organization</InputLabel>
+                        <InputLabel id="organization-label">Organization</InputLabel>
                         <Select
-                            labelId="organizaiton-label"
-                            id='organizaiton'
-                            name='organizaiton'
+                            labelId="organization-label"
+                            id='organization'
+                            name='organization'
                             label='Organization'
                             defaultValue={facility?.organization?.id}
                             required

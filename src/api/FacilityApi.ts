@@ -7,7 +7,7 @@ export class FacilityApi {
         return axiosApi.delete<any>(`${ART_SERVICE}/facilities/${id}`)
     }
     static save(facility: Facility) {
-        return axiosApi.post<Facility>(`${ART_SERVICE}/facilities`)
+        return axiosApi.post<Facility>(`${ART_SERVICE}/facilities`, facility);
     }
 
     static getFacilityById(id: string) {

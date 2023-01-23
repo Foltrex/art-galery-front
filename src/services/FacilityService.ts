@@ -27,11 +27,13 @@ export class FacilityService {
     }
 
     static async save(facility: Facility) {
-        await FacilityApi.save(facility)
-            .then(response => {
+        const { facilityStore } = rootStore;
 
-            })
-            .catch(error => console.log(error));
+        // TODO: change latter
+
+        // await FacilityApi.save(facility)
+        //     .then(response => facilityStore.addFacility(response.data))
+        //     .catch(error => console.log(error));
     }
 
     static async deleteById(id: string) {
