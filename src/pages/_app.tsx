@@ -40,13 +40,14 @@ class CustomApp extends App {
         const stores = getStores(initialData);
         console.log(stores)
 
-    return (
-        <CookiesProvider>
-            <Layout>
-                <Component {...pageProps} />
-            </Layout>
-        </CookiesProvider>
-    );
+        return (
+            <CookiesProvider>
+                <Layout>
+                    <Component {...pageProps} />
+                </Layout>
+            </CookiesProvider>
+        );
+    }
 }
 
 export default CustomApp;
