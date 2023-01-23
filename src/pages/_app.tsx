@@ -4,6 +4,8 @@ import { getStores, StoreProvider } from '../stores/stores';
 import { NextComponentType, NextPageContext } from 'next';
 import { AppTreeType } from 'next/dist/shared/lib/utils';
 import { Router } from 'next/router';
+import Layout from '../components/layout/Layout';
+import { CookiesProvider } from 'react-cookie';
 
 class CustomApp extends App {
     static async getInitialProps(appContext: { ctx: any; Component?: NextComponentType<NextPageContext, {}, {}>; AppTree?: AppTreeType; router?: Router; }) {
@@ -38,14 +40,13 @@ class CustomApp extends App {
         const stores = getStores(initialData);
         console.log(stores)
 
-        return (
-            <StoreProvider value={stores}>
-                {/*<Container>*/}
-                    <Component {...pageProps} />
-                {/*</Container>*/}
-            </StoreProvider>
-        );
-    }
+    return (
+        <CookiesProvider>
+            <Layout>
+                <Component {...pageProps} />
+            </Layout>
+        </CookiesProvider>
+    );
 }
 
 export default CustomApp;
