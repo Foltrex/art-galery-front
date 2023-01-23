@@ -41,11 +41,13 @@ class CustomApp extends App {
         console.log(stores)
 
         return (
-            <CookiesProvider>
-                <Layout>
-                    <Component {...pageProps} />
-                </Layout>
-            </CookiesProvider>
+            <StoreProvider value={stores}>
+                <CookiesProvider>
+                    <Layout>
+                        <Component {...pageProps} />
+                    </Layout>
+                </CookiesProvider>
+            </StoreProvider>
         );
     }
 }
