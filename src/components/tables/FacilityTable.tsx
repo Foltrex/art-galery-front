@@ -1,7 +1,7 @@
 import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { observer } from 'mobx-react';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Facility } from '../../entities/facility';
 import { TFacilityPageProps } from '../../pages/facilities';
 import { FacilityService } from '../../services/FacilityService';
