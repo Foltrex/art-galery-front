@@ -1,4 +1,5 @@
 import {RepresentativeApi} from "../api/RepresentativeApi";
+import { Representative } from "../entities/representative";
 import rootStore from "../stores/rootStore";
 
 export class RepresentativeService {
@@ -19,8 +20,17 @@ export class RepresentativeService {
             })
     }
 
+    static async save(representative: Representative) {
+        const { representativeStore } = rootStore;
+
+        // TODO: change latter
+        
+        // await RepresentativeApi.save(representative)
+        //     .then(response => representativeStore.addRepresentative(response.data))
+        //     .catch(error => console.log(error));
+    }
+
     static async deleteById(id: string) {
-        console.log(id)
         const { representativeStore } = rootStore;
 
         await RepresentativeApi.deleteById(id)

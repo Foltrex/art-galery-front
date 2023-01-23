@@ -8,6 +8,10 @@ interface TPageableResponse {
 
 export class RepresentativeApi {
 
+    static save(representative: Representative) {
+        return axiosApi.post<Representative>(`${ART_SERVICE}/representatives`, representative);
+    }
+
     static getAllRepresentative(page?: number, size?: number) {
         return axiosApi.get<any>(`${ART_SERVICE}/representatives`, {
             params: {
