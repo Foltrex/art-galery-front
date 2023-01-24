@@ -1,0 +1,62 @@
+import {AuthApi} from "../api/AuthApi";
+import {AccountEnum} from "../entities/enums/AccountEnum";
+import Router from 'next/router'
+import {TokenService} from "./TokenService";
+import {Cookies} from "react-cookie"
+import rootStore from "../stores/rootStore";
+
+const cookies = new Cookies()
+const { alertStore } = rootStore;
+
+export class AuthService {
+
+    static async register(email: string, password: string, accountType: AccountEnum) {
+        await AuthApi.register(email, password, accountType)
+            .then(response => {
+                this.handleAuthorization(response.data.token)
+            })
+            .catch(async error => {
+                console.log("Error to register: ", error.response.data)
+                await alertStore.setShow(true, "error", "SignUp error", error.response.data.message)
+            })
+    }
+
+    static async login(email: string, password: string) {
+        await AuthApi.login(email, password)
+            .then(response => {
+                this.handleAuthorization(response.data.token)
+            })
+            .catch(error => {
+                console.log("Error to login: ", error)
+                alertStore.setShow(true, "error", "SignIn error", error.response.data.message)
+            })
+    }
+
+    private static async handleAuthorization(token: string) {
+        const decoded = TokenService.decode(token)
+        cookies.set("token", token, {
+            path: "/",
+            sameSite: "strict",
+            maxAge: decoded.exp - decoded.iat,
+        })
+        await Router.push("/")
+    }
+
+    static isAuthenticated(): boolean {
+        return cookies.get("token") !== undefined;
+    }
+
+    static getToken(): string {
+        if (!this.isAuthenticated()) {
+            throw new Error("User is not authenticated")
+        }
+
+        return cookies.get("token")
+    }
+
+    static async logout() {
+        cookies.remove("token", {path: "/"})
+        await Router.push("/auth/signin")
+    }
+
+}
